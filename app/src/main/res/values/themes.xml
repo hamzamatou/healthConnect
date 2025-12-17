@@ -1,25 +1,12 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.HealthProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Couleurs principales -->
-        <item name="colorPrimary">@color/pastel_green</item>
-        <item name="colorPrimaryVariant">@color/pastel_blue</item>
-        <item name="colorSecondary">@color/pastel_beige</item>
+<resources>
 
-        <!-- Background -->
+    <style name="Theme.HealthProject" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pastel_blue_dark</item>
+        <item name="colorSecondary">@color/pastel_blue_light</item>
+        <item name="colorSurface">@color/white</item>
         <item name="android:windowBackground">@color/pastel_gray</item>
-
-        <!-- Texte -->
         <item name="android:textColorPrimary">@color/text_dark</item>
-        <item name="android:textColorSecondary">@color/text_dark</item>
-
-        <!-- Boutons -->
-        <item name="buttonStyle">@style/Widget.HealthButton</item>
     </style>
 
-    <!-- Style des boutons -->
-    <style name="Widget.HealthButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/pastel_green</item>
-        <item name="android:textColor">@color/text_light</item>
-        <item name="cornerRadius">12dp</item>
-    </style>
+
 </resources>

@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.healthproject.data.repository.AuthRepository
 import com.example.healthproject.databinding.ActivityLoginBinding
 import com.example.healthproject.MainActivity
+import com.example.healthproject.data.model.UserType
+import com.example.healthproject.ui.coordinateur.CoordinateurMissionsActivity
 import com.example.healthproject.ui.register.RegisterActivity
 import com.example.healthproject.viewmodel.AuthViewModel
-import com.example.healthproject.viewmodel.AuthViewModelFactory
+import com.example.healthproject.viewmodel.factory.AuthViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,13 +34,30 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.authResult.observe(this) { (success, message) ->
             if (success) {
-                Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                viewModel.getUserType { type, error ->
+                    if (type != null) {
+                        when (type) {
+                            UserType.COORDINATEUR -> {
+                                startActivity(
+                                    Intent(this, CoordinateurMissionsActivity::class.java)
+                                )
+                            }
+                            UserType.PARTICIPANT -> {
+                                startActivity(
+                                    Intent(this, MainActivity::class.java)
+                                )
+                            }
+                        }
+                        finish()
+                    } else {
+                        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+                    }
+                }
             } else {
                 Toast.makeText(this, "Erreur: $message", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Lien vers Register
         binding.tvGoToRegister.setOnClickListener {

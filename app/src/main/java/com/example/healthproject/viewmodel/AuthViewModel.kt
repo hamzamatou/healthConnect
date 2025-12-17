@@ -2,6 +2,7 @@ package com.example.healthproject.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.healthproject.data.model.UserType
 import com.example.healthproject.data.repository.AuthRepository
 
 class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
@@ -41,6 +42,14 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     fun login() {
         repository.login(email, password) { success, message ->
             authResult.postValue(Pair(success, message))
+        }
+    }
+    fun getUserType(callback: (UserType?, String?) -> Unit) {
+        val userId = repository.getCurrentUser()?.uid
+        if (userId != null) {
+            repository.getUserType(userId, callback)
+        } else {
+            callback(null, "Utilisateur non connecté")
         }
     }
 }

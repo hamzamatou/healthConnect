@@ -89,4 +89,24 @@ class AuthRepository {
      * Get current logged user
      */
     fun getCurrentUser() = auth.currentUser
+    fun getUserType(
+        userId: String,
+        callback: (UserType?, String?) -> Unit
+    ) {
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val userType = document.getString("type")
+                    callback(UserType.valueOf(userType!!), null)
+                } else {
+                    callback(null, "Utilisateur introuvable")
+                }
+            }
+            .addOnFailureListener { e ->
+                callback(null, e.message)
+            }
+    }
+
 }

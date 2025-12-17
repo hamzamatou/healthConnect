@@ -12,6 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthProject">
         <activity
+            android:name=".ui.coordinateur.adapter.ParticipantsAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.ParticipantsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.dialog.CreateMissionDialog"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.adapter.MissionAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.MissionListFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.MissionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.CreateMissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.CoordinateurMissionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity

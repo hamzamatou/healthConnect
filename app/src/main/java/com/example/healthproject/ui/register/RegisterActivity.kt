@@ -9,7 +9,7 @@ import com.example.healthproject.data.repository.AuthRepository
 import com.example.healthproject.databinding.ActivityRegisterBinding
 import com.example.healthproject.ui.login.LoginActivity
 import com.example.healthproject.viewmodel.AuthViewModel
-import com.example.healthproject.viewmodel.AuthViewModelFactory
+import com.example.healthproject.viewmodel.factory.AuthViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Barre de recherche -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Rechercher une mission">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchMission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- RecyclerView pour les cards -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMissions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"/> <!-- 2 cards par ligne -->
+
+    <!-- FAB modernisé -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddMission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Ajouter mission"
+        app:layout_anchor="@id/recyclerViewMissions"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_add"
+        app:backgroundTint="@color/pastel_blue"/>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_menu"
+        app:itemIconTint="@color/pastel_blue"
+        app:itemTextColor="@color/pastel_blue"
+        android:background="@color/white"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
