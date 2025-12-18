@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthProject">
         <activity
+            android:name=".ui.coordinateur.ProfilCoordonnateurActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.coordinateur.adapter.ParticipantsAdapter"
             android:exported="false" />
         <activity

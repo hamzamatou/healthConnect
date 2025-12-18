@@ -1,68 +1,119 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <!-- Contenu défilable -->
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Nom mission -->
+            <EditText
+                android:id="@+id/editTextMissionName"
+                android:text="Nom"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Description -->
+            <EditText
+                android:id="@+id/editTextMissionDescription"
+                android:text="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Lieu -->
+            <EditText
+                android:id="@+id/editTextMissionLieu"
+                android:text="Lieu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Date début -->
+            <EditText
+                android:id="@+id/editTextMissionDateDebut"
+                android:text="Début"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Date fin -->
+            <EditText
+                android:id="@+id/editTextMissionDateFin"
+                android:text="Fin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Statut -->
+            <EditText
+                android:id="@+id/editTextMissionStatut"
+                android:text="Statut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Nombre de médecins -->
+            <EditText
+                android:id="@+id/editTextMissionNbrMedecin"
+                android:text="Médecins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Nombre d'infirmiers -->
+            <EditText
+                android:id="@+id/editTextMissionNbrInfirmier"
+                android:text="Infirmiers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Nombre de volontaires -->
+            <EditText
+                android:id="@+id/editTextMissionNbrVolontaire"
+                android:text="Volontaires"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Bouton voir participants -->
+            <Button
+                android:id="@+id/btnViewParticipants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Voir les participants"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bouton Modification flottant -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditMission"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/textViewMissionName"
-            android:text="Nom"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textViewMissionDescription"
-            android:text="Description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-        <TextView
-            android:id="@+id/textViewMissionLieu"
-            android:text="Lieu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-        <TextView
-            android:id="@+id/textViewMissionDateDebut"
-            android:text="Début"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-        <TextView
-            android:id="@+id/textViewMissionDateFin"
-            android:text="Fin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textViewMissionStatut"
-            android:text="Statut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-        <TextView
-            android:id="@+id/textViewMissionNbrMedecin"
-            android:text="Médecins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textViewMissionNbrInfirmier"
-            android:text="Infirmiers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textViewMissionNbrVolontaire"
-            android:text="Volontaires"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btnViewParticipants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Voir les participants"
-            android:layout_marginTop="16dp"/>
-    </LinearLayout>
-</ScrollView>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Modifier mission"
+        app:srcCompat="@drawable/ic_edit1"
+        app:backgroundTint="@color/bleu_marine"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCancelMission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Annuler mission"
+        app:srcCompat="@drawable/ic_cancel"
+        app:backgroundTint="@color/bleu_marine"/>
+
+</RelativeLayout>
