@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Titre de la mission -->
+        <TextView
+            android:id="@+id/tvMissionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Titre de la mission"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/tvMissionDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description de la mission"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/tvMissionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date: 18/12/2025"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Spinner pour choisir le rôle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choisir votre rôle:"/>
+
+        <Spinner
+            android:id="@+id/spinnerRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Champ médecin -->
+        <EditText
+            android:id="@+id/etSpecialite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Spécialité (Médecin)"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Champ superviseur profession -->
+        <EditText
+            android:id="@+id/etProfession"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Profession (Superviseur)"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Champ superviseur caractéristiques -->
+        <EditText
+            android:id="@+id/etCaracteristiques"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Caractéristiques (Infermier/Superviseur)"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btnDemanderParticipation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Participer"/>
+    </LinearLayout>
+</ScrollView>

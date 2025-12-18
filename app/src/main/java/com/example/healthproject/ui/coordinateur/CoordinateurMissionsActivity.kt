@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.healthproject.data.model.Mission
+import com.example.healthproject.data.model.UserType
 import com.example.healthproject.databinding.ActivityCoordinateurMissionsBinding
 import com.example.healthproject.ui.coordinateur.adapter.MissionAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,11 +25,14 @@ class CoordinateurMissionsActivity : AppCompatActivity() {
         binding = ActivityCoordinateurMissionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 🔹 Layout manager pour la grille
         binding.recyclerViewMissions.layoutManager = GridLayoutManager(this, 2)
-        adapter = MissionAdapter()
+
+        // 🔹 Adapter avec rôle utilisateur
+        adapter = MissionAdapter(UserType.COORDINATEUR)
         binding.recyclerViewMissions.adapter = adapter
 
-        // 🔹 Listener temps réel
+        // 🔹 Listener temps réel pour missions
         listenerRegistration = db.collection("missions")
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
@@ -43,12 +47,12 @@ class CoordinateurMissionsActivity : AppCompatActivity() {
                 adapter.setMissions(missions)
             }
 
-        // FAB pour créer une mission
+        // 🔹 FAB pour créer une mission
         binding.fabAddMission.setOnClickListener {
             startActivity(Intent(this, CreateMissionActivity::class.java))
         }
 
-        // Filtrage en direct
+        // 🔹 Filtrage en direct
         binding.searchMission.addTextChangedListener { editable ->
             adapter.filter(editable.toString())
         }

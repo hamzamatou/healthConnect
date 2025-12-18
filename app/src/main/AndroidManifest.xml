@@ -12,12 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthProject">
         <activity
-<<<<<<< HEAD
-            android:name=".ui.Participant.ParticipantMissionsActivity"
-=======
-            android:name=".ui.coordinateur.ProfilCoordonnateurActivity"
->>>>>>> ace0b52ee7eb291f617af414c1a0d41071ef3c6d
+            android:name=".ui.participant.ParticipantMissionsActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.coordinateur.ProfilCoordonnateurActivity"/>
         <activity
             android:name=".ui.coordinateur.adapter.ParticipantsAdapter"
             android:exported="false" />

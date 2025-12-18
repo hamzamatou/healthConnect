@@ -8,15 +8,23 @@
     <!-- Fragment liste des missions -->
     <fragment
         android:id="@+id/missionFragment"
-        android:name="com.example.healthproject.ui.participant.ParticipantMissionsFragment"
+        android:name="com.example.healthproject.ui.coordinateur.MissionListFragment"
         android:label="Missions">
+
+        <!-- Action vers participation simple -->
         <action
             android:id="@+id/action_missionFragment_to_participationFragment"
-            app:destination="@id/participationFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:destination="@id/participationFragment" />
+
+        <!-- Action vers détails de la mission -->
+        <action
+            android:id="@+id/action_missionFragment_to_missionDetailsFragment"
+            app:destination="@id/missionDetailsFragment">
+            <!-- on peut passer l'ID de la mission en argument -->
+            <argument
+                android:name="missionId"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <!-- Fragment détails / participation -->
@@ -24,4 +32,29 @@
         android:id="@+id/participationFragment"
         android:name="com.example.healthproject.ui.participant.ParticipationFragment"
         android:label="Participation"/>
+
+    <!-- Fragment détails de la mission -->
+    <fragment
+        android:id="@+id/missionDetailsFragment"
+        android:name="com.example.healthproject.ui.participant.MissionDetailsFragment"
+        android:label="Détails Mission">
+
+        <!-- Argument pour passer l'ID de la mission -->
+        <argument
+            android:name="missionId"
+            app:argType="string" />
+
+        <!-- Actions possibles depuis les détails de la mission -->
+        <!-- Par exemple, retourner à la liste -->
+        <action
+            android:id="@+id/action_missionDetailsFragment_to_missionFragment"
+            app:destination="@id/missionFragment"
+            app:popUpTo="@id/missionFragment"
+            app:popUpToInclusive="false"/>
+
+        <!-- Action vers participation (si besoin d’ajouter directement) -->
+        <action
+            android:id="@+id/action_missionDetailsFragment_to_participationFragment"
+            app:destination="@id/participationFragment" />
+    </fragment>
 </navigation>

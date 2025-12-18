@@ -4,11 +4,14 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
 import com.example.healthproject.data.model.Mission
+import com.example.healthproject.data.model.UserType
 import com.example.healthproject.databinding.ItemMissionBinding
 import com.example.healthproject.ui.coordinateur.MissionDetailActivity
+import com.example.healthproject.ui.coordinateur.MissionListFragmentDirections
 
-class MissionAdapter : RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
+class MissionAdapter(private val userType: UserType) : RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
 
     private var originalMissions: List<Mission> = listOf()
     private var missions: List<Mission> = listOf()
@@ -52,9 +55,17 @@ class MissionAdapter : RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() 
             binding.textViewMissionDate.text = "Du ${mission.dateDebut} au ${mission.dateFin}"
 
             binding.btnViewDetails.setOnClickListener {
-                val intent = Intent(binding.root.context, MissionDetailActivity::class.java)
-                intent.putExtra("MISSION_ID", mission.id)
-                binding.root.context.startActivity(intent)
+                if (userType == UserType.COORDINATEUR) {
+                    // Coordinateur → Intent vers Activity
+                    val intent = Intent(binding.root.context, MissionDetailActivity::class.java)
+                    intent.putExtra("MISSION_ID", mission.id)
+                    binding.root.context.startActivity(intent)
+                } else {
+                    // Participant → Navigation via NavGraph
+                    val action = MissionListFragmentDirections
+                        .actionMissionFragmentToMissionDetailsFragment(missionId = mission.id ?: "")
+                    binding.root.findNavController().navigate(action)
+                }
             }
         }
     }
