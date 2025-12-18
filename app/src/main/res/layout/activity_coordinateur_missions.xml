@@ -3,53 +3,60 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gris_clair">
 
     <!-- Barre de recherche -->
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Rechercher une mission">
+        android:hint="Rechercher une mission"
+        app:boxStrokeColor="@color/bleu_marine"
+        app:hintTextColor="@color/bleu_marine">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchMission"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@color/bleu_marine"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- RecyclerView pour les cards -->
+    <!-- RecyclerView pour les missions -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMissions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginBottom="72dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical"
+        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"/> <!-- 2 cards par ligne -->
+        app:spanCount="2"/>
 
-    <!-- FAB modernisé -->
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddMission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:contentDescription="Ajouter mission"
         app:layout_anchor="@id/recyclerViewMissions"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_add"
-        app:backgroundTint="@color/pastel_blue"/>
+        app:backgroundTint="@color/bleu_marine"
+        android:contentDescription="Ajouter mission"/>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation bleu marine -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:menu="@menu/bottom_menu"
-        app:itemIconTint="@color/pastel_blue"
-        app:itemTextColor="@color/pastel_blue"
-        android:background="@color/white"/>
+        android:background="@color/bleu_marine"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

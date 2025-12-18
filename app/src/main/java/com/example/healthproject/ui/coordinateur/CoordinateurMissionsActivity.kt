@@ -7,50 +7,55 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.healthproject.data.model.Mission
 import com.example.healthproject.databinding.ActivityCoordinateurMissionsBinding
-import com.google.firebase.firestore.FirebaseFirestore
 import com.example.healthproject.ui.coordinateur.adapter.MissionAdapter
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import androidx.core.widget.addTextChangedListener
 
 class CoordinateurMissionsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCoordinateurMissionsBinding
-    private val db = FirebaseFirestore.getInstance()
     private lateinit var adapter: MissionAdapter
+    private val db = FirebaseFirestore.getInstance()
+    private var listenerRegistration: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoordinateurMissionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // RecyclerView en grille (2 cards par ligne)
         binding.recyclerViewMissions.layoutManager = GridLayoutManager(this, 2)
-
-        // Adapter avec clic sur une mission → ouvrir les détails
-        // Adapter avec clic géré dans le ViewHolder
         adapter = MissionAdapter()
         binding.recyclerViewMissions.adapter = adapter
 
-        binding.recyclerViewMissions.adapter = adapter
+        // 🔹 Listener temps réel
+        listenerRegistration = db.collection("missions")
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Toast.makeText(this, "Erreur: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
 
-        // Charger les missions depuis Firestore
-        loadMissions()
+                val missions = snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(Mission::class.java)?.copy(id = doc.id)
+                } ?: listOf()
+
+                adapter.setMissions(missions)
+            }
 
         // FAB pour créer une mission
         binding.fabAddMission.setOnClickListener {
             startActivity(Intent(this, CreateMissionActivity::class.java))
         }
+
+        // Filtrage en direct
+        binding.searchMission.addTextChangedListener { editable ->
+            adapter.filter(editable.toString())
+        }
     }
 
-    private fun loadMissions() {
-        db.collection("missions")
-            .get()
-            .addOnSuccessListener { result ->
-                val list = result.map { doc ->
-                    doc.toObject(Mission::class.java).copy(id = doc.id)
-                }
-                adapter.setMissions(list)
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Erreur: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        listenerRegistration?.remove() // Supprimer l'écouteur pour éviter les fuites mémoire
     }
 }

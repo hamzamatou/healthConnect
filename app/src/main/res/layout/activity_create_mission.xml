@@ -1,77 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activityCreateMission"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:background="@color/gris_clair"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editTextMissionName"
+        <!-- Nom de la mission -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nom de la mission"/>
+            android:layout_marginTop="8dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/bleu_marine"
+            app:hintTextColor="@color/bleu_marine"
+            android:hint="Nom de la mission">
 
-        <EditText
-            android:id="@+id/editTextDescription"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMissionName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bleu_marine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Description -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/bleu_marine"
+            app:hintTextColor="@color/bleu_marine"
+            android:hint="Description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bleu_marine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Lieu -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/bleu_marine"
+            app:hintTextColor="@color/bleu_marine"
+            android:hint="Lieu">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextLieu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bleu_marine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Date début -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/bleu_marine"
+            app:hintTextColor="@color/bleu_marine"
+            android:hint="Date début">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDateDebut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bleu_marine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Date fin -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="@color/bleu_marine"
+            app:hintTextColor="@color/bleu_marine"
+            android:hint="Date fin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDateFin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bleu_marine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Nombres -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="3">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Médecins">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextNbrMedecin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Infirmiers">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextNbrInfirmier"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Volontaires">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextNbrVolontaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Matériels -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Matériels à affecter"
+            android:textColor="@color/bleu_marine"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMateriels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="4dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAddMateriel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="@color/bleu_marine"
+            android:contentDescription="Ajouter matériel"
             android:layout_marginTop="8dp"/>
 
-        <EditText
-            android:id="@+id/editTextLieu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Lieu"
-            android:layout_marginTop="8dp"/>
-
-        <EditText
-            android:id="@+id/editTextDateDebut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date début (timestamp)"
-            android:layout_marginTop="8dp"/>
-
-        <EditText
-            android:id="@+id/editTextDateFin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date fin (timestamp)"
-            android:layout_marginTop="8dp"/>
-
-        <EditText
-            android:id="@+id/editTextNbrMedecin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre de médecins"
-            android:inputType="number"
-            android:layout_marginTop="8dp"/>
-
-        <EditText
-            android:id="@+id/editTextNbrInfirmier"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre d'infirmiers"
-            android:inputType="number"
-            android:layout_marginTop="8dp"/>
-
-        <EditText
-            android:id="@+id/editTextNbrVolontaire"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre de volontaires"
-            android:inputType="number"
-            android:layout_marginTop="8dp"/>
-
+        <!-- Bouton créer mission -->
         <Button
             android:id="@+id/btnCreateMission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Créer la mission"
+            android:backgroundTint="@color/bleu_marine"
+            android:textColor="@color/white"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
 </ScrollView>

@@ -10,10 +10,25 @@ import com.example.healthproject.ui.coordinateur.MissionDetailActivity
 
 class MissionAdapter : RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
 
+    private var originalMissions: List<Mission> = listOf()
     private var missions: List<Mission> = listOf()
 
     fun setMissions(list: List<Mission>) {
+        originalMissions = list
         missions = list
+        notifyDataSetChanged()
+    }
+
+    fun filter(query: String) {
+        missions = if (query.isEmpty()) {
+            originalMissions
+        } else {
+            originalMissions.filter { mission ->
+                mission.titre.contains(query, ignoreCase = true) ||
+                        mission.lieu.contains(query, ignoreCase = true) ||
+                        mission.dateDebut.toString().contains(query)
+            }
+        }
         notifyDataSetChanged()
     }
 

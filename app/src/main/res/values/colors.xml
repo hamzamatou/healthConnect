@@ -12,5 +12,9 @@
     <color name="white">#FFFFFF</color>
     <color name="pastel_gray">#F5F7FA</color>
     <color name="text_dark">#212121</color>
+    <color name="bleu_marine">#001F3F</color>
+    <color name="gris_clair">#F3F4F6</color> <!-- pour fond clair si besoin -->
+
+
 
 </resources>
