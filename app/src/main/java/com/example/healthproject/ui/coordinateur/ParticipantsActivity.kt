@@ -1,8 +1,9 @@
 package com.example.healthproject.ui.coordinateur
 
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,37 +26,50 @@ class ParticipantsActivity : AppCompatActivity() {
         binding = ActivityParticipantsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // RecyclerView
         binding.recyclerViewParticipants.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewParticipants.adapter = adapter
 
-        val missionId = intent.getStringExtra("MISSION_ID") ?: return
+        // Récupérer l'ID de la mission
+        val missionId = intent.getStringExtra("MISSION_ID")
+        if (missionId.isNullOrEmpty()) {
+            Toast.makeText(this, "Mission ID introuvable", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        // Charger toutes les demandes acceptées pour la mission
+        // Charger uniquement les participants acceptés
         repository.getDemandesByMissionAndStatus(missionId, DemandeStatus.ACCEPTEE) { list ->
             allParticipants = list
+            if (list.isEmpty()) {
+                Toast.makeText(this, "Aucun participant confirmé", Toast.LENGTH_SHORT).show()
+            }
             adapter.setParticipants(list)
         }
 
         // Spinner pour filtrer par rôle
-        val spinner: Spinner = binding.spinnerRoleFilter
         val roles = RoleMission.values().map { it.name }.toMutableList()
         roles.add(0, "Tous") // option "Tous"
         val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = spinnerAdapter
+        binding.spinnerRoleFilter.adapter = spinnerAdapter
 
-        spinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
-                val selectedRole = roles[position]
-                val filtered = if (selectedRole == "Tous") allParticipants
-                else allParticipants.filter { it.roleMission.name == selectedRole }
-                adapter.setParticipants(filtered)
+        binding.spinnerRoleFilter.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedRole = roles[position]
+                    val filtered = if (selectedRole == "Tous") allParticipants
+                    else allParticipants.filter { it.roleMission.name == selectedRole }
+                    adapter.setParticipants(filtered)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    adapter.setParticipants(allParticipants)
+                }
             }
-
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {
-                adapter.setParticipants(allParticipants)
-            }
-        }
-
     }
 }

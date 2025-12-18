@@ -73,6 +73,12 @@ class MissionDetailActivity : AppCompatActivity() {
             intent.putExtra("MISSION_ID", missionId)
             startActivity(intent)
         }
+        binding.btnViewAllRequests.setOnClickListener {
+            val intent = Intent(this, AllRequestsActivity::class.java)
+            intent.putExtra("MISSION_ID", missionId)
+            startActivity(intent)
+        }
+
     }
 
     private fun setEditingMode(isEditing: Boolean) {

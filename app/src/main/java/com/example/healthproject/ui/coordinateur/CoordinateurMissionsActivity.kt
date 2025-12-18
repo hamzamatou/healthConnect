@@ -12,6 +12,7 @@ import com.example.healthproject.ui.coordinateur.adapter.MissionAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import androidx.core.widget.addTextChangedListener
+import com.example.healthproject.R
 
 class CoordinateurMissionsActivity : AppCompatActivity() {
 
@@ -56,6 +57,28 @@ class CoordinateurMissionsActivity : AppCompatActivity() {
         binding.searchMission.addTextChangedListener { editable ->
             adapter.filter(editable.toString())
         }
+        // 🔹 MENU : clics + intents
+        binding.bottomNavigation.selectedItemId = R.id.nav_home
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+
+                R.id.nav_home -> {
+                    // Déjà sur Accueil
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    startActivity(
+                        Intent(this, ProfilCoordonnateurActivity::class.java)
+                    )
+                    true
+                }
+
+                else -> false
+            }
+        }
+
     }
 
     override fun onDestroy() {

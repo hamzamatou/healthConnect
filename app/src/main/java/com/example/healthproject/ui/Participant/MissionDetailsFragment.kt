@@ -9,22 +9,26 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.example.healthproject.data.model.DemandeParticipation
 import com.example.healthproject.data.model.RoleMission
 import com.example.healthproject.databinding.FragmentMissionDetailsBinding
 import com.example.healthproject.viewmodel.ParticipantMissionViewModel
 import com.example.healthproject.data.repository.DemandeParticipationRepository
 import com.example.healthproject.data.repository.MissionRepository
 import com.example.healthproject.viewmodel.ParticipantMissionViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 
 class MissionDetailsFragment : Fragment() {
 
     private var _binding: FragmentMissionDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val args: MissionDetailsFragmentArgs by navArgs() // Nav Args pour missionId
+    private val args: MissionDetailsFragmentArgs by navArgs()
+
     private val viewModel: ParticipantMissionViewModel by viewModels {
-        ParticipantMissionViewModelFactory(MissionRepository(), DemandeParticipationRepository())
+        ParticipantMissionViewModelFactory(
+            MissionRepository(),
+            DemandeParticipationRepository()
+        )
     }
 
     override fun onCreateView(
@@ -38,26 +42,48 @@ class MissionDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 🔹 Charger les détails de la mission
+        loadMissionDetails()
+
+        // 🔹 Spinner rôles
         val roles = listOf("Infermier", "Médecin", "Superviseur")
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, roles)
+        val spinnerAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, roles)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerRole.adapter = spinnerAdapter
 
-        binding.spinnerRole.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
-                binding.etSpecialite.visibility = if (roles[position] == "Médecin") View.VISIBLE else View.GONE
-                binding.etProfession.visibility = if (roles[position] == "Superviseur") View.VISIBLE else View.GONE
-                binding.etCaracteristiques.visibility = if (roles[position] != "Médecin") View.VISIBLE else View.GONE
+        // 🔹 Affichage dynamique des champs
+        binding.spinnerRole.onItemSelectedListener =
+            object : android.widget.AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    binding.etSpecialite.visibility =
+                        if (roles[position] == "Médecin") View.VISIBLE else View.GONE
+
+                    binding.etProfession.visibility =
+                        if (roles[position] == "Superviseur") View.VISIBLE else View.GONE
+
+                    binding.etCaracteristiques.visibility =
+                        if (roles[position] != "Médecin") View.VISIBLE else View.GONE
+                }
+
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
             }
 
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {
-                // rien à faire
-            }
-        }
-
-
-        // Bouton participer
+        // 🔹 Bouton participer
         binding.btnDemanderParticipation.setOnClickListener {
+            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
+            if (currentUserId == null) {
+                Toast.makeText(requireContext(), "Utilisateur non connecté", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+
             val role = when (binding.spinnerRole.selectedItem.toString()) {
                 "Infermier" -> RoleMission.INFIRMIER
                 "Médecin" -> RoleMission.MEDECIN
@@ -67,17 +93,38 @@ class MissionDetailsFragment : Fragment() {
 
             viewModel.demanderParticipation(
                 missionId = args.missionId,
-                userId = "currentUserId", // récupérer l'ID courant
+                userId = currentUserId,
                 roleMission = role,
-                specialite = binding.etSpecialite.text.toString().takeIf { it.isNotEmpty() },
-                profession = binding.etProfession.text.toString().takeIf { it.isNotEmpty() },
-                caracteristiques = binding.etCaracteristiques.text.toString().takeIf { it.isNotEmpty() }
+                specialite = binding.etSpecialite.text.toString().takeIf { it.isNotBlank() },
+                profession = binding.etProfession.text.toString().takeIf { it.isNotBlank() },
+                caracteristiques = binding.etCaracteristiques.text.toString().takeIf { it.isNotBlank() }
             ) { success, message ->
                 if (success) {
-                    Toast.makeText(requireContext(), "Demande envoyée !", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Demande envoyée avec succès",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(requireContext(), "Erreur : $message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        message ?: "Erreur inconnue",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
+        }
+    }
+
+    private fun loadMissionDetails() {
+        viewModel.loadMissions()
+        viewModel.missions.observe(viewLifecycleOwner) { missions ->
+            val mission = missions.find { it.id == args.missionId }
+            mission?.let {
+                binding.tvMissionTitle.text = it.titre
+                binding.tvMissionDescription.text = it.description
+                binding.tvMissionDate.text =
+                    "Du ${it.dateDebut} au ${it.dateFin}"
             }
         }
     }

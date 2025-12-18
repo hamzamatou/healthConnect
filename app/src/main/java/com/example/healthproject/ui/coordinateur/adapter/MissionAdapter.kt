@@ -11,7 +11,8 @@ import com.example.healthproject.databinding.ItemMissionBinding
 import com.example.healthproject.ui.coordinateur.MissionDetailActivity
 import com.example.healthproject.ui.coordinateur.MissionListFragmentDirections
 
-class MissionAdapter(private val userType: UserType) : RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
+class MissionAdapter(private val userType: UserType) :
+    RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
 
     private var originalMissions: List<Mission> = listOf()
     private var missions: List<Mission> = listOf()
@@ -61,7 +62,7 @@ class MissionAdapter(private val userType: UserType) : RecyclerView.Adapter<Miss
                     intent.putExtra("MISSION_ID", mission.id)
                     binding.root.context.startActivity(intent)
                 } else {
-                    // Participant → Navigation via NavGraph
+                    // Participant → Navigation via NavGraph avec Safe Args
                     val action = MissionListFragmentDirections
                         .actionMissionFragmentToMissionDetailsFragment(missionId = mission.id ?: "")
                     binding.root.findNavController().navigate(action)

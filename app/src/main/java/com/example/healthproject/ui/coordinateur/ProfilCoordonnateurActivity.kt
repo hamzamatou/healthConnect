@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.healthproject.data.model.User
 import com.example.healthproject.databinding.ActivityProfilCoordonnateurBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
+import com.example.healthproject.R
 
 class ProfilCoordonnateurActivity : AppCompatActivity() {
 
@@ -23,6 +27,24 @@ class ProfilCoordonnateurActivity : AppCompatActivity() {
                 val user = doc.toObject(User::class.java)
                 user?.let { afficherProfil(it) }
             }
+        binding.bottomNavigation.selectedItemId = R.id.nav_profile
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+
+                R.id.nav_home -> {
+                    startActivity(
+                        Intent(this, CoordinateurMissionsActivity::class.java)
+                    )
+                    true
+                }
+
+                R.id.nav_profile -> true
+
+                else -> false
+            }
+        }
+
     }
 
     private fun afficherProfil(user: User) {
