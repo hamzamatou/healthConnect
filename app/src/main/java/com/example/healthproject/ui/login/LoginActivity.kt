@@ -10,6 +10,7 @@ import com.example.healthproject.databinding.ActivityLoginBinding
 import com.example.healthproject.MainActivity
 import com.example.healthproject.data.model.UserType
 import com.example.healthproject.ui.coordinateur.CoordinateurMissionsActivity
+import com.example.healthproject.ui.participant.ParticipantMissionsActivity
 import com.example.healthproject.ui.register.RegisterActivity
 import com.example.healthproject.viewmodel.AuthViewModel
 import com.example.healthproject.viewmodel.factory.AuthViewModelFactory
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                             UserType.PARTICIPANT -> {
                                 startActivity(
-                                    Intent(this, MainActivity::class.java)
+                                    Intent(this, ParticipantMissionsActivity::class.java)
                                 )
                             }
                         }

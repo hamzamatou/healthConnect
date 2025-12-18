@@ -8,14 +8,15 @@ class DemandeParticipationRepository {
 
     private val db = FirebaseFirestore.getInstance()
 
+    // Récupérer toutes les demandes d'un participant selon le statut
     fun getDemandesByParticipantAndStatus(
-        participantId: String,
+        userId: String,
         status: DemandeStatus,
         callback: (List<DemandeParticipation>) -> Unit
     ) {
         db.collection("demandesParticipation")
-            .whereEqualTo("participantId", participantId)
-            .whereEqualTo("status", status.name)
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("statut", status.name)
             .get()
             .addOnSuccessListener { snapshot ->
                 callback(snapshot.toObjects(DemandeParticipation::class.java))
@@ -23,21 +24,28 @@ class DemandeParticipationRepository {
             .addOnFailureListener { _ -> callback(emptyList()) }
     }
 
+    // Récupérer toutes les demandes pour une mission et éventuellement par statut
     fun getDemandesByMissionAndStatus(
         missionId: String,
-        status: DemandeStatus,
+        status: DemandeStatus? = null,
         callback: (List<DemandeParticipation>) -> Unit
     ) {
-        db.collection("demandesParticipation")
-            .whereEqualTo("missionId", missionId)
-            .whereEqualTo("status", status.name)
-            .get()
+        val collection = db.collection("demandesParticipation")
+        val query = if (status != null) {
+            collection.whereEqualTo("missionId", missionId)
+                .whereEqualTo("statut", status.name)
+        } else {
+            collection.whereEqualTo("missionId", missionId)
+        }
+
+        query.get()
             .addOnSuccessListener { snapshot ->
                 callback(snapshot.toObjects(DemandeParticipation::class.java))
             }
             .addOnFailureListener { _ -> callback(emptyList()) }
     }
 
+    // Créer une nouvelle demande
     fun createDemande(demande: DemandeParticipation, callback: (Boolean, String?) -> Unit) {
         val docRef = db.collection("demandesParticipation").document()
         val newDemande = demande.copy(id = docRef.id)
@@ -46,10 +54,37 @@ class DemandeParticipationRepository {
             .addOnFailureListener { e -> callback(false, e.message) }
     }
 
-    fun updateDemandeStatus(demandeId: String, status: DemandeStatus, callback: (Boolean, String?) -> Unit) {
+    // Mettre à jour le statut et éventuellement la raison du refus
+    fun updateDemandeStatus(
+        demandeId: String,
+        status: DemandeStatus,
+        raisonRefus: String? = null,
+        callback: (Boolean, String?) -> Unit
+    ) {
+        val updateMap = mutableMapOf<String, Any>(
+            "statut" to status.name
+        )
+        raisonRefus?.let { updateMap["raisonRefus"] = it }
+
         db.collection("demandesParticipation").document(demandeId)
-            .update("status", status.name)
+            .update(updateMap)
             .addOnSuccessListener { callback(true, null) }
             .addOnFailureListener { e -> callback(false, e.message) }
+    }
+
+    // Récupérer une demande pour un utilisateur et une mission (utile pour le bouton "Participer")
+    fun getDemandeByMissionAndUser(
+        missionId: String,
+        userId: String,
+        callback: (DemandeParticipation?) -> Unit
+    ) {
+        db.collection("demandesParticipation")
+            .whereEqualTo("missionId", missionId)
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                callback(snapshot.toObjects(DemandeParticipation::class.java).firstOrNull())
+            }
+            .addOnFailureListener { _ -> callback(null) }
     }
 }

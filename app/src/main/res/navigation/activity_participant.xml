@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_participant"
+    app:startDestination="@id/missionFragment">
+
+    <!-- Fragment liste des missions -->
+    <fragment
+        android:id="@+id/missionFragment"
+        android:name="com.example.healthproject.ui.participant.ParticipantMissionsFragment"
+        android:label="Missions">
+        <action
+            android:id="@+id/action_missionFragment_to_participationFragment"
+            app:destination="@id/participationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <!-- Fragment détails / participation -->
+    <fragment
+        android:id="@+id/participationFragment"
+        android:name="com.example.healthproject.ui.participant.ParticipationFragment"
+        android:label="Participation"/>
+</navigation>
