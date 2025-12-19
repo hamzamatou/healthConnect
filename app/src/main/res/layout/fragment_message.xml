@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messageFragmentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Écrire un message"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:background="@drawable/message_input_background"
+            android:padding="8dp"/>
+
+        <ImageButton
+            android:id="@+id/buttonSend"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Envoyer"/>
+    </LinearLayout>
+
+</LinearLayout>

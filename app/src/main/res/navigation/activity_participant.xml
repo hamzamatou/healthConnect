@@ -36,12 +36,17 @@
         <argument
             android:name="missionId"
             app:argType="string" />
+
+        <!-- Action vers le fragment de messagerie -->
+        <action
+            android:id="@+id/action_descriptionMissionFragment_to_participantMessageFragment"
+            app:destination="@id/participantMessageFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/participationFragment"
         android:name="com.example.healthproject.ui.participant.ParticipationFragment"
-        android:label="Participation"/>
+        android:label="Participation" />
 
     <fragment
         android:id="@+id/missionDetailsFragment"
@@ -49,6 +54,16 @@
         android:label="Détails Mission">
         <argument
             android:name="missionId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/participantMessageFragment"
+        android:name="com.example.healthproject.ui.participant.ParticipantMessageFragment"
+        android:label="Messages">
+
+        <argument
+            android:name="MISSION_ID"
             app:argType="string" />
     </fragment>
 

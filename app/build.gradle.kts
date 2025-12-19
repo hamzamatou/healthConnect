@@ -57,6 +57,10 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     testImplementation(libs.junit)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
