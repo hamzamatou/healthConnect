@@ -13,6 +13,7 @@ import com.example.healthproject.data.model.RoleMission
 import com.example.healthproject.databinding.FragmentMissionDetailsBinding
 import com.example.healthproject.viewmodel.ParticipantMissionViewModel
 import com.example.healthproject.data.repository.DemandeParticipationRepository
+import com.example.healthproject.data.repository.MessageRepository
 import com.example.healthproject.data.repository.MissionRepository
 import com.example.healthproject.viewmodel.ParticipantMissionViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +28,8 @@ class MissionDetailsFragment : Fragment() {
     private val viewModel: ParticipantMissionViewModel by viewModels {
         ParticipantMissionViewModelFactory(
             MissionRepository(),
-            DemandeParticipationRepository()
+            DemandeParticipationRepository(),
+            MessageRepository()
         )
     }
 

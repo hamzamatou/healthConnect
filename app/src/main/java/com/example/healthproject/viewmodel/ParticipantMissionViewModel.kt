@@ -7,6 +7,7 @@ import com.example.healthproject.data.model.*
 import com.example.healthproject.data.repository.DemandeParticipationRepository
 import com.example.healthproject.data.repository.MissionRepository
 import com.example.healthproject.data.repository.MessageRepository
+import android.util.Log
 
 class ParticipantMissionViewModel(
     private val missionRepository: MissionRepository,
@@ -28,9 +29,10 @@ class ParticipantMissionViewModel(
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> get() = _messages
 
-    private val _canSend = MutableLiveData<Boolean>()
+    private val _canSend = MutableLiveData<Boolean>(true) // On autorise temporairement l'envoi
     val canSend: LiveData<Boolean> get() = _canSend
 
+    // Charger toutes les missions
     fun loadMissions() = missionRepository.getAllMissions { _missions.postValue(it) }
 
     fun canParticipateToMission(missionId: String) =
@@ -82,16 +84,21 @@ class ParticipantMissionViewModel(
 
     fun isParticipationAllowed() = _demandeStatus.value == null || _demandeStatus.value == DemandeStatus.REFUSEE
 
+    // Envoi de message sans bloquer sur _canSend
     fun sendMessage(message: Message) {
-        if (_canSend.value == true) {
-            messageRepository.sendMessage(message) { success, error ->
-                if (!success) {
-                    // ici tu peux log ou afficher une erreur
-                }
+        messageRepository.sendMessage(message) { success, error ->
+            if (!success) {
+                Log.e("ParticipantVM", "Erreur envoi message: $error")
+            } else {
+                Log.d("ParticipantVM", "Message envoyé: ${message.contenu}")
             }
         }
     }
 
-    fun loadMessages(missionId: String) =
-        messageRepository.getMessagesByMission(missionId) { _messages.postValue(it) }
+    // Écoute les messages en temps réel
+    fun listenMessages(missionId: String) {
+        messageRepository.listenMessagesByMission(missionId) { list ->
+            _messages.postValue(list)
+        }
+    }
 }

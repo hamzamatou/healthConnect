@@ -10,9 +10,7 @@
         android:id="@+id/recyclerViewMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp"/>
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,18 +23,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Écrire un message"
-            android:inputType="textMultiLine"
             android:maxLines="4"
-            android:background="@drawable/message_input_background"
-            android:padding="8dp"/>
+            android:padding="10dp"/>
 
         <ImageButton
             android:id="@+id/buttonSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_send"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Envoyer"/>
+            android:background="?attr/selectableItemBackgroundBorderless"/>
     </LinearLayout>
 
 </LinearLayout>
