@@ -10,7 +10,9 @@ import com.example.healthproject.data.model.UserType
 import com.example.healthproject.databinding.ItemMissionBinding
 import com.example.healthproject.ui.coordinateur.MissionDetailActivity
 import com.example.healthproject.ui.coordinateur.MissionListFragmentDirections
-
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.widget.ImageView
 class MissionAdapter(private val userType: UserType) :
     RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
 
@@ -54,6 +56,17 @@ class MissionAdapter(private val userType: UserType) :
             binding.textViewMissionTitre.text = mission.titre
             binding.textViewMissionDescription.text = mission.description
             binding.textViewMissionDate.text = "Du ${mission.dateDebut} au ${mission.dateFin}"
+            mission.imageBase64?.let {
+                try {
+                    val bytes = Base64.decode(it, Base64.DEFAULT)
+                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    binding.imageViewMission.setImageBitmap(bitmap)
+                } catch (e: Exception) {
+                    binding.imageViewMission.setImageBitmap(null) // pas d'image si erreur
+                }
+            } ?: run {
+                binding.imageViewMission.setImageBitmap(null) // pas d'image si null
+            }
 
             binding.btnViewDetails.setOnClickListener {
                 if (userType == UserType.COORDINATEUR) {

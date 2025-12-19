@@ -14,5 +14,7 @@ data class Mission(
     val statut: MissionStatus = MissionStatus.OUVERTE,
     val nbrMedecin: Int = 0,
     val nbrInfirmier: Int = 0,
-    val nbrVolontaire: Int = 0
+    val nbrVolontaire: Int = 0,
+    val imageBase64: String? = null // <- nouveau champ
+
 )

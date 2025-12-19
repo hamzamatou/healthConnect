@@ -29,6 +29,7 @@
                 android:textColor="@color/bleu_marine"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <!-- Description -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -180,6 +181,24 @@
             app:backgroundTint="@color/bleu_marine"
             android:contentDescription="Ajouter matériel"
             android:layout_marginTop="8dp"/>
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sélectionner une image"
+            android:backgroundTint="@color/bleu_marine"
+            android:textColor="@color/white"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Aperçu de l'image -->
+        <ImageView
+            android:id="@+id/imageViewPreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+            android:background="@color/gris_clair"
+            android:contentDescription="Aperçu de l'image"/>
 
         <!-- Bouton créer mission -->
         <Button

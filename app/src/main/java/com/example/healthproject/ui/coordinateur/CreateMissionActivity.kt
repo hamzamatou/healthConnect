@@ -1,6 +1,10 @@
 package com.example.healthproject.ui.coordinateur
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +15,7 @@ import com.example.healthproject.data.model.Mission
 import com.example.healthproject.databinding.ActivityCreateMissionBinding
 import com.example.healthproject.ui.coordinateur.adapter.MaterielSelectionAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import java.io.ByteArrayOutputStream
 
 class CreateMissionActivity : AppCompatActivity() {
 
@@ -20,6 +25,12 @@ class CreateMissionActivity : AppCompatActivity() {
     private val materielSelections = mutableListOf<MaterielSelection>()
     private val materiels = mutableListOf<Materiel>() // à remplir depuis Firestore
     private lateinit var materielAdapter: MaterielSelectionAdapter
+
+    private var selectedImageBase64: String? = null
+
+    companion object {
+        private const val IMAGE_PICK_CODE = 1001
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +65,36 @@ class CreateMissionActivity : AppCompatActivity() {
             materielAdapter.notifyItemInserted(materielSelections.size - 1)
         }
 
+        // 🔹 Sélection image
+        binding.btnSelectImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, IMAGE_PICK_CODE)
+        }
+
         // 🔹 Création mission
         binding.btnCreateMission.setOnClickListener {
             createMission()
         }
+    }
+
+    // 🔹 Gestion résultat sélection image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            val uri = data?.data ?: return
+            val inputStream = contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            selectedImageBase64 = encodeToBase64(bitmap)
+            Toast.makeText(this, "Image sélectionnée", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun encodeToBase64(bitmap: Bitmap): String {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos) // qualité 80%
+        val byteArray = baos.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
     private fun createMission() {
@@ -75,7 +112,8 @@ class CreateMissionActivity : AppCompatActivity() {
             dateFin = binding.editTextDateFin.text.toString().toLongOrNull() ?: 0L,
             nbrMedecin = binding.editTextNbrMedecin.text.toString().toIntOrNull() ?: 0,
             nbrInfirmier = binding.editTextNbrInfirmier.text.toString().toIntOrNull() ?: 0,
-            nbrVolontaire = binding.editTextNbrVolontaire.text.toString().toIntOrNull() ?: 0
+            nbrVolontaire = binding.editTextNbrVolontaire.text.toString().toIntOrNull() ?: 0,
+            imageBase64 = selectedImageBase64 // <-- ajout de l'image
         )
 
         db.collection("missions").add(mission)
@@ -127,7 +165,7 @@ class CreateMissionActivity : AppCompatActivity() {
                 }
 
                 if (!hasError) {
-                    Toast.makeText(this, "Mission créée avec matériels", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Mission créée avec matériels et image", Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
@@ -135,5 +173,4 @@ class CreateMissionActivity : AppCompatActivity() {
                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             }
     }
-
 }
