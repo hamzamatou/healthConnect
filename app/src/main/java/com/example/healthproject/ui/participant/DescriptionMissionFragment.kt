@@ -11,6 +11,7 @@ import com.example.healthproject.databinding.FragmentDescriptionMissionBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.navigation.fragment.findNavController
 
 class DescriptionMissionFragment : Fragment() {
 
@@ -39,6 +40,11 @@ class DescriptionMissionFragment : Fragment() {
 
         // 3. Appel au repository pour récupérer les détails de la mission
         chargerDonneesMission(missionId)
+        binding.buttonMessage.setOnClickListener {
+            val action = DescriptionMissionFragmentDirections
+                .actionDescriptionMissionFragmentToParticipantMessageFragment(missionId)
+            findNavController().navigate(action)
+        }
     }
 
     private fun chargerDonneesMission(id: String) {

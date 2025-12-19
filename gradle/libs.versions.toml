@@ -34,8 +34,14 @@ androidx_navigation_ui_ktx = { group = "androidx.navigation", name = "navigation
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
+retrofit_gson = { group = "com.squareup.retrofit2", name = "converter-gson", version = "2.9.0" }
+okhttp_logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version = "4.11.0" }
+
+
 [plugins]
 android_application = { id = "com.android.application", version.ref = "agp" }
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google_gms_google_services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 androidx_navigation_safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "nav" }
+
