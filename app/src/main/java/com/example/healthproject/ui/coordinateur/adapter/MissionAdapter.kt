@@ -1,18 +1,19 @@
 package com.example.healthproject.ui.coordinateur.adapter
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.example.healthproject.R
 import com.example.healthproject.data.model.Mission
 import com.example.healthproject.data.model.UserType
 import com.example.healthproject.databinding.ItemMissionBinding
 import com.example.healthproject.ui.coordinateur.MissionDetailActivity
-import com.example.healthproject.ui.coordinateur.MissionListFragmentDirections
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.widget.ImageView
+
 class MissionAdapter(private val userType: UserType) :
     RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
 
@@ -39,7 +40,11 @@ class MissionAdapter(private val userType: UserType) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionViewHolder {
-        val binding = ItemMissionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMissionBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return MissionViewHolder(binding)
     }
 
@@ -55,30 +60,43 @@ class MissionAdapter(private val userType: UserType) :
         fun bind(mission: Mission) {
             binding.textViewMissionTitre.text = mission.titre
             binding.textViewMissionDescription.text = mission.description
-            binding.textViewMissionDate.text = "Du ${mission.dateDebut} au ${mission.dateFin}"
+            binding.textViewMissionDate.text =
+                "Du ${mission.dateDebut} au ${mission.dateFin}"
+
             mission.imageBase64?.let {
                 try {
                     val bytes = Base64.decode(it, Base64.DEFAULT)
                     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                     binding.imageViewMission.setImageBitmap(bitmap)
                 } catch (e: Exception) {
-                    binding.imageViewMission.setImageBitmap(null) // pas d'image si erreur
+                    binding.imageViewMission.setImageBitmap(null)
                 }
             } ?: run {
-                binding.imageViewMission.setImageBitmap(null) // pas d'image si null
+                binding.imageViewMission.setImageBitmap(null)
             }
 
             binding.btnViewDetails.setOnClickListener {
                 if (userType == UserType.COORDINATEUR) {
-                    // Coordinateur → Intent vers Activity
-                    val intent = Intent(binding.root.context, MissionDetailActivity::class.java)
+
+                    // ✅ Coordinateur → Activity
+                    val intent = Intent(
+                        binding.root.context,
+                        MissionDetailActivity::class.java
+                    )
                     intent.putExtra("MISSION_ID", mission.id)
                     binding.root.context.startActivity(intent)
+
                 } else {
-                    // Participant → Navigation via NavGraph avec Safe Args
-                    val action = MissionListFragmentDirections
-                        .actionMissionFragmentToMissionDetailsFragment(missionId = mission.id ?: "")
-                    binding.root.findNavController().navigate(action)
+
+                    // ✅ Participant → Fragment (NavController)
+                    val bundle = Bundle().apply {
+                        putString("missionId", mission.id)
+                    }
+
+                    binding.root.findNavController().navigate(
+                        R.id.missionDetailsFragment,
+                        bundle
+                    )
                 }
             }
         }

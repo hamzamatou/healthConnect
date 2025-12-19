@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_participant"
     app:startDestination="@id/missionFragment">
 
-    <!-- Fragment liste des missions -->
     <fragment
         android:id="@+id/missionFragment"
         android:name="com.example.healthproject.ui.coordinateur.MissionListFragment"
         android:label="Missions">
 
         <action
-            android:id="@+id/action_missionFragment_to_participationFragment"
-            app:destination="@id/participationFragment" />
+            android:id="@+id/action_missionFragment_to_descriptionMissionFragment"
+            app:destination="@id/descriptionMissionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mesDemandesFragment"
+        android:name="com.example.healthproject.ui.participant.MesDemandesFragment"
+        android:label="Mes demandes">
 
         <action
-            android:id="@+id/action_missionFragment_to_missionDetailsFragment"
-            app:destination="@id/missionDetailsFragment">
+            android:id="@+id/action_mesDemandesFragment_to_descriptionMissionFragment"
+            app:destination="@id/descriptionMissionFragment">
             <argument
                 android:name="missionId"
                 app:argType="string" />
         </action>
     </fragment>
 
-    <!-- Fragment participation -->
+    <fragment
+        android:id="@+id/descriptionMissionFragment"
+        android:name="com.example.healthproject.ui.participant.DescriptionMissionFragment"
+        android:label="Description Mission">
+
+        <argument
+            android:name="missionId"
+            app:argType="string" />
+    </fragment>
+
     <fragment
         android:id="@+id/participationFragment"
         android:name="com.example.healthproject.ui.participant.ParticipationFragment"
         android:label="Participation"/>
 
-    <!-- Fragment détails de mission -->
     <fragment
         android:id="@+id/missionDetailsFragment"
         android:name="com.example.healthproject.ui.participant.MissionDetailsFragment"
@@ -38,19 +50,6 @@
         <argument
             android:name="missionId"
             app:argType="string" />
-        <action
-            android:id="@+id/action_missionDetailsFragment_to_missionFragment"
-            app:destination="@id/missionFragment"
-            app:popUpTo="@id/missionFragment"
-            app:popUpToInclusive="false"/>
-        <action
-            android:id="@+id/action_missionDetailsFragment_to_participationFragment"
-            app:destination="@id/participationFragment" />
     </fragment>
 
-    <!-- Fragment Mes Demandes -->
-    <fragment
-        android:id="@+id/mesDemandesFragment"
-        android:name="com.example.healthproject.ui.participant.MesDemandesFragment"
-        android:label="Mes demandes" />
 </navigation>

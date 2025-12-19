@@ -38,4 +38,17 @@ class MissionRepository {
             .addOnSuccessListener { callback(true, null) }
             .addOnFailureListener { e -> callback(false, e.message) }
     }
+    fun getMissionById(missionId: String, callback: (Mission?) -> Unit) {
+        db.collection("missions").document(missionId)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    callback(snapshot.toObject(Mission::class.java))
+                } else {
+                    callback(null)
+                }
+            }
+            .addOnFailureListener { _ -> callback(null) }
+    }
+
 }

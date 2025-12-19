@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.example.healthproject.data.model.DemandeStatus
 import com.example.healthproject.data.repository.DemandeParticipationRepository
 import com.example.healthproject.data.repository.MissionRepository
@@ -42,26 +43,36 @@ class MesDemandesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        binding.recyclerViewDemandes.layoutManager = LinearLayoutManager(requireContext())
 
-        // Charger toutes les missions
+        setupStatusFilter()
+
+        // 1. Charger les missions en premier
         viewModel.loadMissions()
 
-        // Observer les missions
-        viewModel.missions.observe(viewLifecycleOwner) { missionsList ->
+        // 2. Observer les demandes : C'est ici qu'on initialise l'adapter proprement
+        viewModel.mesDemandes.observe(viewLifecycleOwner) { demandes ->
+            // On crée l'adapter SEULEMENT quand les données (missionsMap) sont prêtes dans le ViewModel
             adapter = MesDemandesAdapter(viewModel.missionsMap)
-            binding.recyclerViewDemandes.layoutManager = LinearLayoutManager(requireContext())
             binding.recyclerViewDemandes.adapter = adapter
 
-            setupStatusFilter()
-
-            if (userId != null) viewModel.loadMesDemandes(userId)
-
-            viewModel.mesDemandes.observe(viewLifecycleOwner) { demandes ->
-                adapter.submitListWithFilter(demandes, getSelectedStatus())
-                binding.tvEmpty.visibility = if (demandes.isEmpty()) View.VISIBLE else View.GONE
+            // 3. Configurer le clic de navigation
+            adapter.onDetailClickListener = { mission ->
+                val missionId = mission.id ?: ""
+                if (missionId.isNotEmpty()) {
+                    val action = MesDemandesFragmentDirections
+                        .actionMesDemandesFragmentToDescriptionMissionFragment(missionId)
+                    findNavController().navigate(action)
+                }
             }
+
+            adapter.submitListWithFilter(demandes, getSelectedStatus())
+            binding.tvEmpty.visibility = if (demandes.isEmpty()) View.VISIBLE else View.GONE
         }
+
+        // 4. Charger les demandes de l'utilisateur
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        userId?.let { viewModel.loadMesDemandes(it) }
     }
 
     private fun setupStatusFilter() {
@@ -72,8 +83,10 @@ class MesDemandesFragment : Fragment() {
 
         binding.spinnerStatusFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val demandes = viewModel.mesDemandes.value ?: emptyList()
-                adapter.submitListWithFilter(demandes, getSelectedStatus())
+                if (::adapter.isInitialized) {
+                    val demandes = viewModel.mesDemandes.value ?: emptyList()
+                    adapter.submitListWithFilter(demandes, getSelectedStatus())
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }

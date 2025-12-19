@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthProject">
         <activity
+            android:name=".ui.participant.DescriptionMissionFragment"
+            android:exported="false" />
+        <activity
             android:name=".ui.superviseur.materiel.MaterielAdapter"
             android:exported="false" />
         <activity
