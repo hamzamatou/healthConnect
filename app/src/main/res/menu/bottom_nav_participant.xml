@@ -9,5 +9,9 @@
         android:id="@+id/mesDemandesFragment"
         android:icon="@drawable/ic_demande"
         android:title="Mes demandes" />
+    <item
+        android:id="@+id/pharmaChatFragment"
+        android:icon="@drawable/ic_pharma"
+        android:title="Assistant IA" />
 
 </menu>
