@@ -12,6 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthProject">
         <activity
+            android:name=".ui.superviseur.materiel.MaterielAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.superviseur.materiel.MaterielFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ui.superviseur.presence.PresenceAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.superviseur.presence.PresenceFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ui.superviseur.SuperviseurMissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.superviseur.item_participant"
+            android:exported="false" />
+        <activity
             android:name=".ui.coordinateur.AllRequestsActivity"
             android:exported="false" />
         <activity

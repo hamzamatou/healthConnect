@@ -52,11 +52,15 @@ class MesDemandesAdapter(
 
             // Statut
             binding.tvStatus.text = demande.statut.name
-            val statusColor = when(demande.statut) {
+            val statusColor = when (demande.statut) {
                 DemandeStatus.EN_ATTENTE -> Color.parseColor("#52C2C7") // bleu
-                DemandeStatus.ACCEPTEE -> Color.parseColor("#4CAF50")    // vert pastel
-                DemandeStatus.REFUSEE -> Color.parseColor("#F44336")    // rouge pastel
+                DemandeStatus.ACCEPTEE -> Color.parseColor("#4CAF50")  // vert
+                DemandeStatus.REFUSEE -> Color.parseColor("#F44336")   // rouge
+
+                DemandeStatus.PRESENT -> Color.parseColor("#2E7D32")  // vert foncé
+                DemandeStatus.ABSENT -> Color.parseColor("#B71C1C")   // rouge foncé
             }
+
             binding.tvStatus.setBackgroundColor(statusColor)
             binding.tvStatus.setTextColor(Color.WHITE)
 

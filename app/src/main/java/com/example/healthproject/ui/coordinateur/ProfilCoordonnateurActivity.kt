@@ -8,11 +8,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.healthproject.R
+import com.example.healthproject.ui.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfilCoordonnateurActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfilCoordonnateurBinding
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        Toast.makeText(this, "Déconnecté avec succès", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +44,19 @@ class ProfilCoordonnateurActivity : AppCompatActivity() {
             when (item.itemId) {
 
                 R.id.nav_home -> {
-                    startActivity(
-                        Intent(this, CoordinateurMissionsActivity::class.java)
-                    )
+                    startActivity(Intent(this, CoordinateurMissionsActivity::class.java))
                     true
                 }
 
-                R.id.nav_profile -> true
+                R.id.nav_profile -> {
+                    // Ici on est déjà sur Profil, donc rien à faire
+                    true
+                }
+
+                R.id.nav_logout -> {
+                    logout()
+                    true
+                }
 
                 else -> false
             }

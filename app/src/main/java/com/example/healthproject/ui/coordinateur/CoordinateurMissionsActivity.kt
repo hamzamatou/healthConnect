@@ -13,6 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import androidx.core.widget.addTextChangedListener
 import com.example.healthproject.R
+import com.example.healthproject.ui.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class CoordinateurMissionsActivity : AppCompatActivity() {
 
@@ -20,6 +22,14 @@ class CoordinateurMissionsActivity : AppCompatActivity() {
     private lateinit var adapter: MissionAdapter
     private val db = FirebaseFirestore.getInstance()
     private var listenerRegistration: ListenerRegistration? = null
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        Toast.makeText(this, "Déconnecté avec succès", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,31 +63,31 @@ class CoordinateurMissionsActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateMissionActivity::class.java))
         }
 
-        // 🔹 Filtrage en direct
+
         binding.searchMission.addTextChangedListener { editable ->
             adapter.filter(editable.toString())
         }
-        // 🔹 MENU : clics + intents
+
         binding.bottomNavigation.selectedItemId = R.id.nav_home
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-
                 R.id.nav_home -> {
-                    // Déjà sur Accueil
+                    startActivity(Intent(this, CoordinateurMissionsActivity::class.java))
                     true
                 }
-
                 R.id.nav_profile -> {
-                    startActivity(
-                        Intent(this, ProfilCoordonnateurActivity::class.java)
-                    )
+                    startActivity(Intent(this, ProfilCoordonnateurActivity::class.java))
                     true
                 }
-
+                R.id.nav_logout -> {
+                    logout()
+                    true
+                }
                 else -> false
             }
         }
+
 
     }
 

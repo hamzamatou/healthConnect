@@ -72,7 +72,7 @@ class DemandeParticipationRepository {
             .addOnFailureListener { e -> callback(false, e.message) }
     }
 
-    // Récupérer une demande pour un utilisateur et une mission (utile pour le bouton "Participer")
+    // Récupérer une demande pour un utilisateur et une mission
     fun getDemandeByMissionAndUser(
         missionId: String,
         userId: String,
@@ -86,5 +86,36 @@ class DemandeParticipationRepository {
                 callback(snapshot.toObjects(DemandeParticipation::class.java).firstOrNull())
             }
             .addOnFailureListener { _ -> callback(null) }
+    }
+
+    // --- Méthodes pour gérer la présence ---
+    fun getParticipantsForMission(
+        missionId: String,
+        callback: (List<DemandeParticipation>) -> Unit
+    ) {
+        db.collection("demandesParticipation")
+            .whereEqualTo("missionId", missionId)
+            .whereIn(
+                "statut",
+                listOf(
+                    DemandeStatus.ACCEPTEE.name,
+                    DemandeStatus.PRESENT.name,
+                    DemandeStatus.ABSENT.name
+                )
+            )
+            .get()
+            .addOnSuccessListener {
+                callback(it.toObjects(DemandeParticipation::class.java))
+            }
+            .addOnFailureListener {
+                callback(emptyList())
+            }
+    }
+
+    fun updatePresence(demandeId: String, present: Boolean) {
+        val newStatus = if (present) DemandeStatus.PRESENT else DemandeStatus.ABSENT
+        db.collection("demandesParticipation")
+            .document(demandeId)
+            .update("statut", newStatus.name)
     }
 }

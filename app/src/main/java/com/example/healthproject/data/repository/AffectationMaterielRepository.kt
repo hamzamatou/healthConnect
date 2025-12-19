@@ -30,4 +30,9 @@ class AffectationMaterielRepository {
             }
             .addOnFailureListener { _ -> callback(emptyList()) }
     }
+    fun updateEtatApres(id: String, etat: String) {
+        db.collection("affectationsMateriel")
+            .document(id)
+            .update("etatApres", etat)
+    }
 }
