@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
 import com.example.healthproject.data.model.DemandeStatus
 import com.example.healthproject.data.repository.DemandeParticipationRepository
+import com.example.healthproject.data.repository.MessageRepository
 import com.example.healthproject.data.repository.MissionRepository
 import com.example.healthproject.databinding.FragmentMesDemandesBinding
 import com.example.healthproject.viewmodel.ParticipantMissionViewModel
@@ -26,7 +27,8 @@ class MesDemandesFragment : Fragment() {
     private val viewModel: ParticipantMissionViewModel by viewModels {
         ParticipantMissionViewModelFactory(
             MissionRepository(),
-            DemandeParticipationRepository()
+            DemandeParticipationRepository(),
+            MessageRepository()
         )
     }
 
