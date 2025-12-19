@@ -29,7 +29,6 @@
                 android:textColor="@color/bleu_marine"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <!-- Description -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -78,7 +77,11 @@
                 android:id="@+id/editTextDateDebut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/bleu_marine"/>
+                android:textColor="@color/bleu_marine"
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:inputType="none"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Date fin -->
@@ -95,7 +98,11 @@
                 android:id="@+id/editTextDateFin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/bleu_marine"/>
+                android:textColor="@color/bleu_marine"
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:inputType="none"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Nombres -->

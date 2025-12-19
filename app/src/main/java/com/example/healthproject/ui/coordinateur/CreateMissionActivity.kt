@@ -1,5 +1,7 @@
 package com.example.healthproject.ui.coordinateur
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,6 +18,7 @@ import com.example.healthproject.databinding.ActivityCreateMissionBinding
 import com.example.healthproject.ui.coordinateur.adapter.MaterielSelectionAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 class CreateMissionActivity : AppCompatActivity() {
 
@@ -23,10 +26,12 @@ class CreateMissionActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
 
     private val materielSelections = mutableListOf<MaterielSelection>()
-    private val materiels = mutableListOf<Materiel>() // à remplir depuis Firestore
+    private val materiels = mutableListOf<Materiel>()
     private lateinit var materielAdapter: MaterielSelectionAdapter
 
     private var selectedImageBase64: String? = null
+    private var selectedDateDebut: Long? = null
+    private var selectedDateFin: Long? = null
 
     companion object {
         private const val IMAGE_PICK_CODE = 1001
@@ -37,7 +42,7 @@ class CreateMissionActivity : AppCompatActivity() {
         binding = ActivityCreateMissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 🔹 RecyclerView
+        // RecyclerView matériels
         materielAdapter = MaterielSelectionAdapter(
             materiels,
             materielSelections
@@ -52,33 +57,34 @@ class CreateMissionActivity : AppCompatActivity() {
             adapter = materielAdapter
         }
 
-        // 🔹 Charger la liste des matériels depuis Firestore
+        // Charger matériels depuis Firestore
         db.collection("materiel").get().addOnSuccessListener { snapshot ->
             materiels.clear()
             materiels.addAll(snapshot.toObjects(Materiel::class.java))
             materielAdapter.notifyDataSetChanged()
         }
 
-        // 🔹 Ajouter une ligne
+        // Ajouter une ligne
         binding.btnAddMateriel.setOnClickListener {
             materielSelections.add(MaterielSelection())
             materielAdapter.notifyItemInserted(materielSelections.size - 1)
         }
 
-        // 🔹 Sélection image
+        // Sélection image
         binding.btnSelectImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, IMAGE_PICK_CODE)
         }
 
-        // 🔹 Création mission
-        binding.btnCreateMission.setOnClickListener {
-            createMission()
-        }
+        // Date & heure picker
+        binding.editTextDateDebut.setOnClickListener { showDateTimePicker(isStartDate = true) }
+        binding.editTextDateFin.setOnClickListener { showDateTimePicker(isStartDate = false) }
+
+        // Création mission
+        binding.btnCreateMission.setOnClickListener { createMission() }
     }
 
-    // 🔹 Gestion résultat sélection image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
@@ -86,15 +92,69 @@ class CreateMissionActivity : AppCompatActivity() {
             val inputStream = contentResolver.openInputStream(uri)
             val bitmap = BitmapFactory.decodeStream(inputStream)
             selectedImageBase64 = encodeToBase64(bitmap)
+            binding.imageViewPreview.setImageBitmap(bitmap)
             Toast.makeText(this, "Image sélectionnée", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun encodeToBase64(bitmap: Bitmap): String {
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos) // qualité 80%
-        val byteArray = baos.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+        return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+    }
+
+    // 🔹 Date + Heure Picker
+    private fun showDateTimePicker(isStartDate: Boolean) {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.HOUR_OF_DAY, 24) // min = maintenant + 24h
+
+        val datePicker = DatePickerDialog(
+            this,
+            { _, y, m, d ->
+                val selectedCalendar = Calendar.getInstance()
+                selectedCalendar.set(y, m, d, 0, 0, 0)
+
+                // Après la date, afficher TimePicker
+                val timePicker = TimePickerDialog(
+                    this,
+                    { _, hour, minute ->
+                        selectedCalendar.set(Calendar.HOUR_OF_DAY, hour)
+                        selectedCalendar.set(Calendar.MINUTE, minute)
+                        selectedCalendar.set(Calendar.SECOND, 0)
+                        selectedCalendar.set(Calendar.MILLISECOND, 0)
+                        val timestamp = selectedCalendar.timeInMillis
+
+                        if (isStartDate) {
+                            selectedDateDebut = timestamp
+                            binding.editTextDateDebut.setText(
+                                String.format(
+                                    "%02d/%02d/%04d %02d:%02d",
+                                    d, m + 1, y, hour, minute
+                                )
+                            )
+                        } else {
+                            selectedDateFin = timestamp
+                            binding.editTextDateFin.setText(
+                                String.format(
+                                    "%02d/%02d/%04d %02d:%02d",
+                                    d, m + 1, y, hour, minute
+                                )
+                            )
+                        }
+                    },
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE),
+                    true
+                )
+                timePicker.show()
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        datePicker.datePicker.minDate = calendar.timeInMillis
+        datePicker.show()
     }
 
     private fun createMission() {
@@ -104,16 +164,27 @@ class CreateMissionActivity : AppCompatActivity() {
             return
         }
 
+        // Vérification dates
+        if (selectedDateDebut == null || selectedDateFin == null) {
+            Toast.makeText(this, "Veuillez sélectionner les deux dates", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (selectedDateDebut!! > selectedDateFin!!) {
+            Toast.makeText(this, "La date de début ne peut pas être après la date de fin", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val mission = Mission(
             titre = titre,
             description = binding.editTextDescription.text.toString(),
             lieu = binding.editTextLieu.text.toString(),
-            dateDebut = binding.editTextDateDebut.text.toString().toLongOrNull() ?: 0L,
-            dateFin = binding.editTextDateFin.text.toString().toLongOrNull() ?: 0L,
+            dateDebut = selectedDateDebut!!,
+            dateFin = selectedDateFin!!,
             nbrMedecin = binding.editTextNbrMedecin.text.toString().toIntOrNull() ?: 0,
             nbrInfirmier = binding.editTextNbrInfirmier.text.toString().toIntOrNull() ?: 0,
             nbrVolontaire = binding.editTextNbrVolontaire.text.toString().toIntOrNull() ?: 0,
-            imageBase64 = selectedImageBase64 // <-- ajout de l'image
+            imageBase64 = selectedImageBase64
         )
 
         db.collection("missions").add(mission)
@@ -124,7 +195,6 @@ class CreateMissionActivity : AppCompatActivity() {
                 materielSelections.forEach { sel ->
                     if (sel.materielId == null || sel.quantite <= 0) return@forEach
 
-                    // 🔹 Récupérer la quantité réelle depuis Firestore
                     db.collection("materiel").document(sel.materielId!!).get()
                         .addOnSuccessListener { snapshot ->
                             val materiel = snapshot.toObject(Materiel::class.java)
@@ -134,7 +204,6 @@ class CreateMissionActivity : AppCompatActivity() {
                                 return@addOnSuccessListener
                             }
 
-                            // 🔹 Vérification stock
                             if (sel.quantite > materiel.quantiteInitiale) {
                                 Toast.makeText(
                                     this,
@@ -145,7 +214,6 @@ class CreateMissionActivity : AppCompatActivity() {
                                 return@addOnSuccessListener
                             }
 
-                            // 🔹 Créer affectation
                             val affectation = AffectationMateriel(
                                 missionId = missionId,
                                 materielId = sel.materielId!!,
@@ -153,8 +221,6 @@ class CreateMissionActivity : AppCompatActivity() {
                                 etatAvant = "Stock: ${materiel.quantiteInitiale}"
                             )
                             db.collection("affectationsMateriel").add(affectation)
-
-                            // 🔹 Mettre à jour le stock dans Firestore
                             db.collection("materiel").document(sel.materielId!!)
                                 .update("quantiteInitiale", materiel.quantiteInitiale - sel.quantite)
                         }
@@ -165,7 +231,7 @@ class CreateMissionActivity : AppCompatActivity() {
                 }
 
                 if (!hasError) {
-                    Toast.makeText(this, "Mission créée avec matériels et image", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Mission créée avec succès", Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
