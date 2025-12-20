@@ -1,123 +1,235 @@
-<RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!-- Contenu défilable -->
+    android:layout_height="match_parent"
+    android:background="@color/gris_clair">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bleu_marine">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Détails Mission"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:padding="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Nom mission -->
-            <EditText
-                android:id="@+id/editTextMissionName"
-                android:text="Nom"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <!-- Description -->
-            <EditText
-                android:id="@+id/editTextMissionDescription"
-                android:text="Description"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                app:boxStrokeColor="@color/bleu_marine"
+                app:hintTextColor="@color/bleu_marine"
+                android:hint="Nom de la mission">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMissionName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Lieu -->
-            <EditText
-                android:id="@+id/editTextMissionLieu"
-                android:text="Lieu"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Description">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMissionDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Date début -->
-            <EditText
-                android:id="@+id/editTextMissionDateDebut"
-                android:text="Début"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Lieu">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMissionLieu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Date fin -->
-            <EditText
-                android:id="@+id/editTextMissionDateFin"
-                android:text="Fin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <!-- Statut -->
-            <EditText
-                android:id="@+id/editTextMissionStatut"
-                android:text="Statut"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Date début">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMissionDateDebut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nombre de médecins -->
-            <EditText
-                android:id="@+id/editTextMissionNbrMedecin"
-                android:text="Médecins"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:boxStrokeColor="@color/bleu_marine"
+                android:hint="Date fin">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMissionDateFin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nombre d'infirmiers -->
-            <EditText
-                android:id="@+id/editTextMissionNbrInfirmier"
-                android:text="Infirmiers"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Statut (Non modifiable)">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextMissionStatut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:textColor="@color/bleu_marine"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nombre de volontaires -->
-            <EditText
-                android:id="@+id/editTextMissionNbrVolontaire"
-                android:text="Volontaires"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:weightSum="3">
 
-            <!-- Bouton voir participants -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Méd.">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextMissionNbrMedecin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="@color/bleu_marine"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:hint="Inf.">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextMissionNbrInfirmier"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="@color/bleu_marine"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:hint="Vol.">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextMissionNbrVolontaire"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="@color/bleu_marine"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btnViewParticipants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Voir les participants"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/bleu_marine"/>
+
+            <Button
+                android:id="@+id/btnViewAllRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Voir toutes les demandes"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/bleu_marine"/>
+
+            <View android:layout_width="match_parent" android:layout_height="80dp"/>
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bouton Modification flottant -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEditMission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:contentDescription="Modifier mission"
-        app:srcCompat="@drawable/ic_edit1"
-        app:backgroundTint="@color/bleu_marine"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCancelMission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
-        android:contentDescription="Annuler mission"
         app:srcCompat="@drawable/ic_cancel"
-        app:backgroundTint="@color/bleu_marine"/>
-    <!-- Bouton pour voir toutes les demandes -->
-    <Button
-        android:id="@+id/btnViewAllRequests"
-        android:layout_width="match_parent"
+        app:backgroundTint="@color/bleu_marine"
+        app:tint="@color/white"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditMission"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voir toutes les demandes"
-        android:layout_marginTop="8dp"/>
-</RelativeLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_edit1"
+        app:backgroundTint="@color/bleu_marine"
+        app:tint="@color/white"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
