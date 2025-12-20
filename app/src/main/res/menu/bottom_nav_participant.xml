@@ -1,13 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/missionFragment"
         android:icon="@drawable/ic_mission"
         android:title="Missions" />
-
     <item
         android:id="@+id/mesDemandesFragment"
         android:icon="@drawable/ic_demande"
-        android:title="Mes demandes" />
+        android:title="Demandes" />
+    <item
+        android:id="@+id/pharmaChatFragment"
+        android:icon="@drawable/ic_pharma"
+        android:title="Assistant IA" />
+    <item
+        android:id="@+id/profileFragment"
 
+        android:title="Profil" />
 </menu>

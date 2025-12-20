@@ -13,6 +13,8 @@ import com.example.healthproject.databinding.ItemMissionBinding
 import com.example.healthproject.ui.coordinateur.MissionDetailActivity
 import android.graphics.BitmapFactory
 import android.util.Base64
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MissionAdapter(private val userType: UserType) :
     RecyclerView.Adapter<MissionAdapter.MissionViewHolder>() {
@@ -58,11 +60,17 @@ class MissionAdapter(private val userType: UserType) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(mission: Mission) {
+            var nbrtotal=(mission.nbrVolontaire+mission.nbrMedecin+mission.nbrInfirmier).toString()
             binding.textViewMissionTitre.text = mission.titre
-            binding.textViewMissionDescription.text = mission.description
-            binding.textViewMissionDate.text =
-                "Du ${mission.dateDebut} au ${mission.dateFin}"
-
+            binding.textViewMissionPart.text = nbrtotal
+            binding.textViewMissionLoc.text =mission.lieu
+            mission.dateDebut?.let { date ->
+                // On formate pour obtenir le jour (ex: 12) et le mois (ex: OCT.)
+                val sdfDay = SimpleDateFormat("dd", Locale.FRANCE)
+                val sdfMonth = SimpleDateFormat("MMM", Locale.FRANCE)
+                binding.textViewDateDay.text = sdfDay.format(date)
+                binding.textViewDateMonth.text = sdfMonth.format(date).uppercase().replace(".", "")
+            }
             mission.imageBase64?.let {
                 try {
                     val bytes = Base64.decode(it, Base64.DEFAULT)

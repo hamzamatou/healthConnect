@@ -1,125 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:padding="16dp">
+    android:background="#FFFFFF">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Card Mission -->
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:radius="20dp"
-            android:elevation="8dp"
-            app:cardBackgroundColor="#FFFFFF">
+            android:orientation="vertical"
+            android:paddingBottom="120dp">
 
+            <!-- HEADER IMAGE + BACK BUTTON -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
+                <ImageView
+                    android:id="@+id/ivMissionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:scaleType="centerCrop" />
+
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/white" />
+            </FrameLayout>
+
+            <!-- CARD PARTICIPANTS -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="-30dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_avatars_group" />
+                    <TextView
+                        android:id="@+id/tvGoingCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Participants "
+                        android:textColor="#4F9BB7"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- DETAILS MISSION -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="24dp">
 
-                <!-- Titre -->
                 <TextView
                     android:id="@+id/tvMissionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Titre de la mission"
-                    android:textSize="22sp"
+                    android:text="Titre de la Mission"
+                    android:textColor="#120D26"
+                    android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="#052C57"
-                    android:layout_marginBottom="12dp"/>
+                    android:layout_marginBottom="20dp" />
 
-                <!-- Description -->
+                <!-- DATE / TIME -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="20dp">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/img_4"
+                        android:padding="12dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:id="@+id/tvMissionDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#120D26"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tvMissionTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#808080"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- LIEU -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="20dp">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/img_3"
+                        android:padding="12dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:id="@+id/tvMissionLocationName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#120D26"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lieu de l'intervention"
+                            android:textColor="#808080"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- DESCRIPTION -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="À propos de la mission"
+                    android:textStyle="bold"
+                    android:textColor="#120D26"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
                 <TextView
                     android:id="@+id/tvMissionDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description de la mission"
-                    android:textSize="16sp"
-                    android:textColor="#333333"
-                    android:layout_marginBottom="12dp"/>
+                    android:textColor="#120D26"
+                    android:lineSpacingExtra="6dp"
+                    android:textSize="16sp" />
 
-                <!-- Date -->
-                <TextView
-                    android:id="@+id/tvMissionDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="📅 18/12/2025"
-                    android:textSize="14sp"
-                    android:textColor="#4CAF50"
-                    android:layout_marginBottom="20dp"/>
-
-                <!-- Rôle -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Choisir votre rôle"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
-                    android:layout_marginBottom="6dp"/>
-
-                <Spinner
-                    android:id="@+id/spinnerRole"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_input"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- Champs conditionnels -->
-                <EditText
-                    android:id="@+id/etSpecialite"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Spécialité (Médecin)"
-                    android:background="@drawable/bg_input"
-                    android:padding="12dp"
-                    android:visibility="gone"
-                    android:layout_marginBottom="8dp"/>
-
-                <EditText
-                    android:id="@+id/etProfession"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Profession (Superviseur)"
-                    android:background="@drawable/bg_input"
-                    android:padding="12dp"
-                    android:visibility="gone"
-                    android:layout_marginBottom="8dp"/>
-
-                <EditText
-                    android:id="@+id/etCaracteristiques"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Caractéristiques"
-                    android:background="@drawable/bg_input"
-                    android:padding="12dp"
-                    android:visibility="gone"
-                    android:layout_marginBottom="20dp"/>
-
-                <!-- Bouton Participer -->
+                <!-- BOUTON PARTICIPER -->
                 <Button
-                    android:id="@+id/btnDemanderParticipation"
+                    android:id="@+id/btnVoulezParticiper"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:text="Participer"
-                    android:textAllCaps="false"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:layout_height="50dp"
+                    android:text="Voulez-vous participer ?"
+                    android:backgroundTint="#4F9BB7"
                     android:textColor="#FFFFFF"
-                    android:background="@drawable/bg_button_primary"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"/>
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp"
+                    app:cornerRadius="12dp"/>
+
+                <!-- FORMULAIRE PARTICIPATION (hidden par défaut) -->
+                <LinearLayout
+                    android:id="@+id/layoutParticipation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Choisissez votre rôle"
+                        android:textStyle="bold"
+                        android:textColor="#120D26"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="12dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerRole"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/bg_input" />
+
+                    <EditText android:id="@+id/etSpecialite"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Spécialité"
+                        android:visibility="gone"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_input"
+                        android:padding="12dp"/>
+
+                    <EditText android:id="@+id/etProfession"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Profession"
+                        android:visibility="gone"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_input"
+                        android:padding="12dp"/>
+
+                    <EditText android:id="@+id/etCaracteristiques"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Caractéristiques"
+                        android:visibility="gone"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_input"
+                        android:padding="12dp"/>
+
+                    <Button
+                        android:id="@+id/btnDemanderParticipation"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:text="PARTICIPER"
+                        android:backgroundTint="#4F9BB7"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        app:cornerRadius="15dp" />
+                </LinearLayout>
+
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
