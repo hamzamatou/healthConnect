@@ -4,28 +4,40 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment   // ✅ IMPORTANT
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthproject.R
+import com.example.healthproject.data.repository.AffectationMaterielRepository
+import com.example.healthproject.data.repository.DemandeParticipationRepository
+import com.example.healthproject.data.repository.MissionRepository
 import com.example.healthproject.viewmodel.SuperviseurViewModel
 import com.example.healthproject.viewmodel.factory.SuperviseurViewModelFactory
 
 class PresenceFragment : Fragment() {
 
+    private val args: PresenceFragmentArgs by navArgs()
     private lateinit var viewModel: SuperviseurViewModel
-    private lateinit var missionId: String
+    private lateinit var adapter: PresenceAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        missionId = requireArguments().getString("missionId")!!
 
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            SuperviseurViewModelFactory()
-        )[SuperviseurViewModel::class.java]
+        val affectationRepo = AffectationMaterielRepository()
+        val participationRepo = DemandeParticipationRepository()
+        val missionRepo = MissionRepository()
+
+        val factory = SuperviseurViewModelFactory(
+            affectationRepo,
+            participationRepo,
+            missionRepo
+        )
+
+        viewModel = ViewModelProvider(this, factory)[SuperviseurViewModel::class.java]
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,25 +48,18 @@ class PresenceFragment : Fragment() {
 
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerPresence)
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = PresenceAdapter(viewModel)
+
+        adapter = PresenceAdapter(viewModel)
         recycler.adapter = adapter
 
-        viewModel.participants.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        // Observer la liste des participations
+        viewModel.participations.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
         }
 
-        viewModel.loadParticipants(missionId)
+        // Charger les participants de la mission
+        viewModel.loadParticipants(args.missionId)
 
         return view
-    }
-
-    companion object {
-        fun newInstance(missionId: String): PresenceFragment {
-            return PresenceFragment().apply {
-                arguments = Bundle().apply {
-                    putString("missionId", missionId)
-                }
-            }
-        }
     }
 }

@@ -13,15 +13,16 @@
         android:text="Bonjour Mr le superviseur,"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#52C2C7"/>
+        android:textColor="#52C2C7"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ici vous pouvez gérer la mission. Merci pour votre aide !"
+        android:text="Merci pour votre contribution ! Gérez cette mission avec soin et efficacité."
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="32dp"/>
 
     <Button
         android:id="@+id/btnVerifierPresence"
@@ -37,4 +38,13 @@
         android:layout_height="wrap_content"
         android:text="Vérifier Matériel"
         android:backgroundTint="#52C2C7"/>
+    <Button
+        android:id="@+id/btnCloturerMission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clôturer la mission"
+        android:backgroundTint="#F44336"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"/>
+
 </LinearLayout>

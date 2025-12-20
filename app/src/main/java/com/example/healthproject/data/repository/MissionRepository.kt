@@ -1,6 +1,7 @@
 package com.example.healthproject.data.repository
 
 import com.example.healthproject.data.model.Mission
+import com.example.healthproject.data.model.MissionStatus
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -50,5 +51,19 @@ class MissionRepository {
             }
             .addOnFailureListener { _ -> callback(null) }
     }
+    fun updateMissionStatus(missionId: String, status: MissionStatus) {
+        db.collection("missions")
+            .document(missionId)
+            .update("statut", status)
+            .addOnSuccessListener {
+                // Optionnel : log ou toast pour confirmer
+                println("Mission $missionId mise à jour à CLOTUREE")
+            }
+            .addOnFailureListener { e ->
+                println("Erreur lors de la mise à jour : ${e.message}")
+            }
+    }
+
+
 
 }
