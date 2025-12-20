@@ -44,17 +44,17 @@ class MissionDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 🔹 Charger les détails de la mission
+        //  Charger les détails de la mission
         loadMissionDetails()
 
-        // 🔹 Spinner rôles
+        //  Spinner rôles
         val roles = listOf("Infermier", "Médecin", "Superviseur")
         val spinnerAdapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, roles)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerRole.adapter = spinnerAdapter
 
-        // 🔹 Affichage dynamique des champs
+        //  Affichage dynamique des champs
         binding.spinnerRole.onItemSelectedListener =
             object : android.widget.AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -76,7 +76,7 @@ class MissionDetailsFragment : Fragment() {
                 override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
             }
 
-        // 🔹 Bouton participer
+        //  Bouton participer
         binding.btnDemanderParticipation.setOnClickListener {
             val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 

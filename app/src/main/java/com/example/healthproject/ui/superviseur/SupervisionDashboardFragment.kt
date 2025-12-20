@@ -21,7 +21,7 @@ class SupervisionDashboardFragment : Fragment() {
 
     private var _binding: FragmentSupervisionDashboardBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: SuperviseurViewModel // Ajouté
+    private lateinit var viewModel: SuperviseurViewModel
 
     private val args: SupervisionDashboardFragmentArgs by navArgs()
 
@@ -57,7 +57,7 @@ class SupervisionDashboardFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        // --- CORRECTION DU BOUTON CLÔTURER ---
+
         binding.btnCloturerMission.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Clôturer la mission")
@@ -69,7 +69,7 @@ class SupervisionDashboardFragment : Fragment() {
                     // Bloquer le bouton visuellement
                     binding.btnCloturerMission.isEnabled = false
                     binding.btnCloturerMission.text = "Mission clôturée"
-                    binding.btnCloturerMission.alpha = 0.5f // Optionnel : rend le bouton grisé
+                    binding.btnCloturerMission.alpha = 0.5f
                 }
                 .setNegativeButton("Annuler", null)
                 .show()
