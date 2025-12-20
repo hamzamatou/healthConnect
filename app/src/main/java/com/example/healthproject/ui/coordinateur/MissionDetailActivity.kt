@@ -137,7 +137,7 @@ class MissionDetailActivity : AppCompatActivity() {
             .build()
 
         val service = retrofit.create(BrevoApi::class.java)
-        val apiKey = "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"
+        val apiKey = "key"
 
 
 
