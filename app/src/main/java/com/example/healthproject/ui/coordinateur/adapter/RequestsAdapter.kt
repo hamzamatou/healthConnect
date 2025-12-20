@@ -10,8 +10,10 @@ import com.example.healthproject.data.repository.DemandeParticipationRepository
 import com.example.healthproject.databinding.ItemRequestParticipantBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.healthproject.data.model.User
+
 class RequestsAdapter(
-    private val onStatusChanged: (() -> Unit)? = null
+    // Modification : le callback renvoie maintenant le userId et si c'est accepté
+    private val onStatusChanged: ((userId: String, isAccepted: Boolean) -> Unit)? = null
 ) : RecyclerView.Adapter<RequestsAdapter.RequestViewHolder>() {
 
     private var requests: List<DemandeParticipation> = listOf()
@@ -44,7 +46,6 @@ class RequestsAdapter(
             binding.textViewNom.text = "Chargement…"
             binding.textViewRole.text = "Rôle: ${request.roleMission}"
 
-            // Charger le nom du user depuis Firestore
             if (!request.userId.isNullOrEmpty()) {
                 FirebaseFirestore.getInstance().collection("users")
                     .document(request.userId)
@@ -54,34 +55,27 @@ class RequestsAdapter(
                         binding.textViewNom.text =
                             user?.let { "${it.nom} ${it.prenom}" } ?: "Utilisateur inconnu"
                     }
-                    .addOnFailureListener {
-                        binding.textViewNom.text = "Erreur de chargement"
-                    }
-            } else {
-                binding.textViewNom.text = "Utilisateur inconnu"
             }
 
-            // Confirmer la demande
             binding.btnConfirm.setOnClickListener {
                 request.id?.let { id ->
                     repository.updateDemandeStatus(id, DemandeStatus.ACCEPTEE) { success, _ ->
                         if (success) {
                             Toast.makeText(binding.root.context, "Demande confirmée", Toast.LENGTH_SHORT).show()
+                            onStatusChanged?.invoke(request.userId ?: "", true)
                             removeRequestFromList(adapterPosition)
-                            onStatusChanged?.invoke()
                         }
                     }
                 }
             }
 
-            // Annuler la demande
             binding.btnCancel.setOnClickListener {
                 request.id?.let { id ->
                     repository.updateDemandeStatus(id, DemandeStatus.REFUSEE) { success, _ ->
                         if (success) {
-                            Toast.makeText(binding.root.context, "Demande annulée", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(binding.root.context, "Demande refusée", Toast.LENGTH_SHORT).show()
+                            onStatusChanged?.invoke(request.userId ?: "", false)
                             removeRequestFromList(adapterPosition)
-                            onStatusChanged?.invoke()
                         }
                     }
                 }
@@ -90,7 +84,7 @@ class RequestsAdapter(
     }
 
     private fun removeRequestFromList(position: Int) {
-        if (position != RecyclerView.NO_POSITION) {
+        if (position != RecyclerView.NO_POSITION && position < requests.size) {
             val mutableList = requests.toMutableList()
             mutableList.removeAt(position)
             requests = mutableList

@@ -28,7 +28,6 @@ class MissionDetailActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
-    // Stockage des timestamps pour la base de données
     private var selectedDateDebut: Long? = null
     private var selectedDateFin: Long? = null
 
@@ -51,7 +50,7 @@ class MissionDetailActivity : AppCompatActivity() {
         loadMissionDetails(missionRef)
         setEditingMode(false)
 
-        // Gestion des Pickers (uniquement en mode édition)
+        // Gestion des Pickers
         binding.editTextMissionDateDebut.setOnClickListener { if (isEditing) showDateTimePicker(true) }
         binding.editTextMissionDateFin.setOnClickListener { if (isEditing) showDateTimePicker(false) }
 
@@ -63,12 +62,13 @@ class MissionDetailActivity : AppCompatActivity() {
                 isEditing = true
                 setEditingMode(true)
                 binding.fabEditMission.setImageResource(android.R.drawable.ic_menu_save)
-                Toast.makeText(this, "Mode édition activé", Toast.LENGTH_SHORT).show()
             }
         }
 
         // FAB Annuler mission
-        binding.fabCancelMission.setOnClickListener { cancelMission(missionRef, missionId) }
+        binding.fabCancelMission.setOnClickListener {
+            cancelMission(missionRef, missionId)
+        }
 
         binding.btnViewParticipants.setOnClickListener {
             startActivity(Intent(this, ParticipantsActivity::class.java).apply {
@@ -104,47 +104,73 @@ class MissionDetailActivity : AppCompatActivity() {
                     if (it.statut == MissionStatus.ANNULE) {
                         fabCancelMission.isEnabled = false
                         fabCancelMission.alpha = 0.5f
+                        fabEditMission.isEnabled = false
                     }
                 }
             }
         }
     }
 
-    private fun showDateTimePicker(isStartDate: Boolean) {
-        val calendar = Calendar.getInstance()
-        DatePickerDialog(this, { _, y, m, d ->
-            val selCal = Calendar.getInstance().apply { set(y, m, d) }
-            TimePickerDialog(this, { _, h, min ->
-                selCal.set(Calendar.HOUR_OF_DAY, h)
-                selCal.set(Calendar.MINUTE, min)
-                val time = selCal.timeInMillis
+    private fun cancelMission(missionRef: DocumentReference, missionId: String) {
+        // On récupère le titre affiché à l'écran pour l'email
+        val missionTitle = binding.editTextMissionName.text.toString()
 
-                if (isStartDate) {
-                    selectedDateDebut = time
-                    binding.editTextMissionDateDebut.setText(sdf.format(Date(time)))
-                } else {
-                    if (selectedDateDebut != null && time <= selectedDateDebut!!) {
-                        Toast.makeText(this, "La fin doit être après le début", Toast.LENGTH_SHORT).show()
-                    } else {
-                        selectedDateFin = time
-                        binding.editTextMissionDateFin.setText(sdf.format(Date(time)))
-                    }
-                }
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        missionRef.update("statut", MissionStatus.ANNULE.name).addOnSuccessListener {
+            Toast.makeText(this, "Mission annulée !", Toast.LENGTH_SHORT).show()
+            binding.editTextMissionStatut.setText(MissionStatus.ANNULE.name)
+
+            // Désactiver les boutons après annulation
+            binding.fabCancelMission.isEnabled = false
+            binding.fabCancelMission.alpha = 0.5f
+
+            // Envoyer les emails avec le titre de la mission
+            sendEmailToConfirmedParticipants(missionId, missionTitle)
+        }.addOnFailureListener {
+            Toast.makeText(this, "Erreur lors de l'annulation", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun setEditingMode(enabled: Boolean) {
-        binding.apply {
-            editTextMissionName.isEnabled = enabled
-            editTextMissionDescription.isEnabled = enabled
-            editTextMissionLieu.isEnabled = enabled
-            editTextMissionDateDebut.isEnabled = enabled
-            editTextMissionDateFin.isEnabled = enabled
-            editTextMissionNbrMedecin.isEnabled = enabled
-            editTextMissionNbrInfirmier.isEnabled = enabled
-            editTextMissionNbrVolontaire.isEnabled = enabled
-        }
+    private fun sendEmailToConfirmedParticipants(missionId: String, title: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.brevo.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(BrevoApi::class.java)
+        val apiKey = "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"
+
+
+
+        db.collection("demandesParticipation")
+            .whereEqualTo("missionId", missionId)
+            .whereEqualTo("statut", DemandeStatus.ACCEPTEE.name)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                for (doc in snapshot.documents) {
+                    val uId = doc.getString("userId") ?: continue
+
+                    db.collection("users").document(uId).get().addOnSuccessListener { uDoc ->
+                        val email = uDoc.getString("email") ?: return@addOnSuccessListener
+                        val userName = uDoc.getString("nom") ?: "Participant"
+
+                        val body = EmailBody(
+                            sender = Sender("HealthApp", "nourkalay21@gmail.com"),
+                            to = listOf(Recipient(email)),
+                            subject = "Annulation de mission : $title",
+                            textContent = "Bonjour $userName,\n\nNous vous informons que la mission « $title » a été annulée. Votre participation n'est donc plus requise. Merci de votre compréhension."
+                        )
+
+                        service.sendEmail(body, apiKey).enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                if (response.isSuccessful) Log.d("Email", "Annulation envoyée à $email")
+                            }
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                Log.e("Email", "Erreur d'envoi", t)
+                            }
+                        })
+                    }
+                }
+            }
     }
 
     private fun saveMissionChanges(missionRef: DocumentReference) {
@@ -176,48 +202,43 @@ class MissionDetailActivity : AppCompatActivity() {
             setEditingMode(false)
             binding.fabEditMission.setImageResource(com.example.healthproject.R.drawable.ic_edit1)
             Toast.makeText(this, "Mission mise à jour !", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener {
-            Toast.makeText(this, "Erreur lors de la mise à jour", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun cancelMission(missionRef: DocumentReference, missionId: String) {
-        missionRef.update("statut", MissionStatus.ANNULE.name).addOnSuccessListener {
-            Toast.makeText(this, "Mission annulée !", Toast.LENGTH_SHORT).show()
-            binding.editTextMissionStatut.setText(MissionStatus.ANNULE.name)
-            sendEmailToConfirmedParticipants(missionId)
+    private fun setEditingMode(enabled: Boolean) {
+        binding.apply {
+            editTextMissionName.isEnabled = enabled
+            editTextMissionDescription.isEnabled = enabled
+            editTextMissionLieu.isEnabled = enabled
+            editTextMissionDateDebut.isEnabled = enabled
+            editTextMissionDateFin.isEnabled = enabled
+            editTextMissionNbrMedecin.isEnabled = enabled
+            editTextMissionNbrInfirmier.isEnabled = enabled
+            editTextMissionNbrVolontaire.isEnabled = enabled
         }
     }
 
-    private fun sendEmailToConfirmedParticipants(missionId: String) {
-        // ... (Logique Brevo inchangée)
-        val retrofit = Retrofit.Builder().baseUrl("https://api.brevo.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val service = retrofit.create(BrevoApi::class.java)
-        val apiKey = "votre_cle"
+    private fun showDateTimePicker(isStartDate: Boolean) {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(this, { _, y, m, d ->
+            val selCal = Calendar.getInstance().apply { set(y, m, d) }
+            TimePickerDialog(this, { _, h, min ->
+                selCal.set(Calendar.HOUR_OF_DAY, h)
+                selCal.set(Calendar.MINUTE, min)
+                val time = selCal.timeInMillis
 
-        db.collection("demandesParticipation")
-            .whereEqualTo("missionId", missionId)
-            .whereEqualTo("statut", DemandeStatus.ACCEPTEE.name).get()
-            .addOnSuccessListener { snapshot ->
-                for (doc in snapshot.documents) {
-                    val uId = doc.getString("userId") ?: continue
-                    db.collection("users").document(uId).get().addOnSuccessListener { uDoc ->
-                        val email = uDoc.getString("email") ?: return@addOnSuccessListener
-                        val body = EmailBody(
-                            sender = Sender("HealthApp", "nourkalay21@gmail.com"),
-                            to = listOf(Recipient(email)),
-                            subject = "Annulation de mission",
-                            textContent = "La mission a été annulée."
-                        )
-                        service.sendEmail(body, apiKey).enqueue(object : Callback<ResponseBody> {
-                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                                if (response.isSuccessful) Log.d("Email", "Envoyé à $email")
-                            }
-                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
-                        })
+                if (isStartDate) {
+                    selectedDateDebut = time
+                    binding.editTextMissionDateDebut.setText(sdf.format(Date(time)))
+                } else {
+                    if (selectedDateDebut != null && time <= selectedDateDebut!!) {
+                        Toast.makeText(this, "La fin doit être après le début", Toast.LENGTH_SHORT).show()
+                    } else {
+                        selectedDateFin = time
+                        binding.editTextMissionDateFin.setText(sdf.format(Date(time)))
                     }
                 }
-            }
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
 }
