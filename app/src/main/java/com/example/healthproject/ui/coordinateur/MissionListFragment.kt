@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.healthproject.data.model.Mission
+import com.example.healthproject.data.model.MissionStatus
 import com.example.healthproject.data.model.UserType
 import com.example.healthproject.databinding.FragmentMissionListBinding
 import com.example.healthproject.ui.coordinateur.adapter.MissionAdapter
@@ -48,20 +50,30 @@ class MissionListFragment : Fragment() {
         binding.recyclerViewMissions.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMissions.adapter = adapter
 
-        // 🔹 Charger les missions depuis Firestore en temps réel
+        // 🔹 Charger uniquement les missions avec le statut MissionStatus.OUVERTE
         listenerRegistration = db.collection("missions")
+            .whereEqualTo("statut", MissionStatus.OUVERTE.name) // ✅ Utilise .name pour avoir "OUVERTE"
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    // Erreur lors de la récupération
+                    android.util.Log.e("FirestoreError", "Erreur : ${exception.message}")
                     return@addSnapshotListener
                 }
 
                 val missions = snapshot?.documents?.mapNotNull { doc ->
-                    doc.toObject(Mission::class.java)?.copy(id = doc.id)
+                    try {
+                        // Conversion du document en objet Mission
+                        doc.toObject(Mission::class.java)?.copy(id = doc.id)
+                    } catch (e: Exception) {
+                        android.util.Log.e("MappingError", "Erreur de conversion : ${e.message}")
+                        null
+                    }
                 } ?: listOf()
 
                 adapter.setMissions(missions)
             }
+        binding.searchMission.addTextChangedListener { editable ->
+            adapter.filter(editable.toString())
+        }
     }
 
     override fun onDestroyView() {
