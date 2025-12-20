@@ -41,12 +41,18 @@ class PresenceAdapter(
 
         holder.txtRole.text = demande.roleMission.name
 
+        // Présent
         holder.btnPresent.setOnClickListener {
             viewModel.markPresence(demande.id!!, true)
+            items.removeAt(position) // retirer immédiatement de la liste affichée
+            notifyItemRemoved(position)
         }
 
+        // Absent
         holder.btnAbsent.setOnClickListener {
             viewModel.markPresence(demande.id!!, false)
+            items.removeAt(position) // retirer immédiatement de la liste affichée
+            notifyItemRemoved(position)
         }
     }
 }

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.healthproject.R
 import com.example.healthproject.data.model.AffectationMateriel
@@ -23,6 +24,9 @@ class MaterielAdapter(
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtNom: TextView = view.findViewById(R.id.txtNomMateriel)
+        val txtQuantiteAvant: TextView = view.findViewById(R.id.txtQuantiteAvant)
+        val edtQuantiteApres: EditText = view.findViewById(R.id.edtQuantiteApres)
         val edtEtat: EditText = view.findViewById(R.id.edtEtat)
         val btnSave: Button = view.findViewById(R.id.btnSave)
     }
@@ -38,11 +42,22 @@ class MaterielAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mat = items[position]
 
+        holder.txtNom.text = mat.nomMateriel ?: "N/A"
+        holder.txtQuantiteAvant.text = "Quantité affectée: ${mat.quantiteAffectee ?: 0}"
+        holder.edtQuantiteApres.setText(mat.quantiteApres?.toString() ?: "")
+        holder.edtEtat.setText(mat.etatApres ?: "")
+
+        holder.btnSave.isEnabled = mat.quantiteApres == null
+
         holder.btnSave.setOnClickListener {
-            viewModel.updateEtatMateriel(
-                mat.id!!,
-                holder.edtEtat.text.toString()
-            )
+            val etat = holder.edtEtat.text.toString()
+            val quantite = holder.edtQuantiteApres.text.toString().toIntOrNull() ?: 0
+
+            mat.id?.let { affectId ->
+                viewModel.updateEtatMateriel(mat, etat, quantite) {
+                    holder.btnSave.isEnabled = false
+                }
+            }
         }
     }
 }

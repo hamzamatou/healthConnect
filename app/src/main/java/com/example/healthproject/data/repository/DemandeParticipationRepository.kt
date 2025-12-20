@@ -118,4 +118,13 @@ class DemandeParticipationRepository {
             .document(demandeId)
             .update("statut", newStatus.name)
     }
+    // Mettre à jour la présence
+    fun markPresence(demandeId: String, present: Boolean, callback: (Boolean) -> Unit) {
+        val newStatus = if (present) DemandeStatus.PRESENT else DemandeStatus.ABSENT
+        db.collection("demandesParticipation")
+            .document(demandeId)
+            .update("statut", newStatus.name)
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
 }

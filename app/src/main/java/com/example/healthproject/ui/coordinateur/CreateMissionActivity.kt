@@ -106,15 +106,17 @@ class CreateMissionActivity : AppCompatActivity() {
     // 🔹 Date + Heure Picker
     private fun showDateTimePicker(isStartDate: Boolean) {
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.HOUR_OF_DAY, 24) // min = maintenant + 24h
+
+        // Définir la contrainte de base (Maintenant + 24h)
+        val minAllowedDate = Calendar.getInstance()
+        minAllowedDate.add(Calendar.HOUR_OF_DAY, 24)
 
         val datePicker = DatePickerDialog(
             this,
             { _, y, m, d ->
                 val selectedCalendar = Calendar.getInstance()
-                selectedCalendar.set(y, m, d, 0, 0, 0)
+                selectedCalendar.set(y, m, d)
 
-                // Après la date, afficher TimePicker
                 val timePicker = TimePickerDialog(
                     this,
                     { _, hour, minute ->
@@ -122,24 +124,26 @@ class CreateMissionActivity : AppCompatActivity() {
                         selectedCalendar.set(Calendar.MINUTE, minute)
                         selectedCalendar.set(Calendar.SECOND, 0)
                         selectedCalendar.set(Calendar.MILLISECOND, 0)
+
                         val timestamp = selectedCalendar.timeInMillis
 
                         if (isStartDate) {
                             selectedDateDebut = timestamp
-                            binding.editTextDateDebut.setText(
-                                String.format(
-                                    "%02d/%02d/%04d %02d:%02d",
-                                    d, m + 1, y, hour, minute
-                                )
-                            )
+                            binding.editTextDateDebut.setText(String.format("%02d/%02d/%04d %02d:%02d", d, m + 1, y, hour, minute))
+
+                            // Reset la date de fin si elle devient invalide par rapport au nouveau début
+                            if (selectedDateFin != null && selectedDateFin!! <= selectedDateDebut!!) {
+                                selectedDateFin = null
+                                binding.editTextDateFin.setText("")
+                            }
                         } else {
-                            selectedDateFin = timestamp
-                            binding.editTextDateFin.setText(
-                                String.format(
-                                    "%02d/%02d/%04d %02d:%02d",
-                                    d, m + 1, y, hour, minute
-                                )
-                            )
+                            // 🔹 Vérification supplémentaire pour l'heure si c'est la date de fin
+                            if (selectedDateDebut != null && timestamp <= selectedDateDebut!!) {
+                                Toast.makeText(this, "L'heure de fin doit être après l'heure de début", Toast.LENGTH_LONG).show()
+                            } else {
+                                selectedDateFin = timestamp
+                                binding.editTextDateFin.setText(String.format("%02d/%02d/%04d %02d:%02d", d, m + 1, y, hour, minute))
+                            }
                         }
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
@@ -153,37 +157,66 @@ class CreateMissionActivity : AppCompatActivity() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
 
-        datePicker.datePicker.minDate = calendar.timeInMillis
+        // --- LOGIQUE DES CONTRAINTES ---
+        if (isStartDate) {
+            // La date de début ne peut pas être avant "Maintenant + 24h"
+            datePicker.datePicker.minDate = minAllowedDate.timeInMillis
+        } else {
+            // La date de fin ne peut pas être avant la date de début (ou minAllowedDate si début non saisi)
+            if (selectedDateDebut != null) {
+                datePicker.datePicker.minDate = selectedDateDebut!!
+            } else {
+                datePicker.datePicker.minDate = minAllowedDate.timeInMillis
+            }
+        }
+
         datePicker.show()
     }
 
     private fun createMission() {
+        // 1. Récupération des valeurs
         val titre = binding.editTextMissionName.text.toString().trim()
-        if (titre.isEmpty()) {
-            Toast.makeText(this, "Nom de mission obligatoire", Toast.LENGTH_SHORT).show()
+        val description = binding.editTextDescription.text.toString().trim()
+        val lieu = binding.editTextLieu.text.toString().trim()
+        val nbrMed = binding.editTextNbrMedecin.text.toString().trim()
+        val nbrInf = binding.editTextNbrInfirmier.text.toString().trim()
+        val nbrVol = binding.editTextNbrVolontaire.text.toString().trim()
+
+        // 2. Vérification des champs textuels et numériques
+        if (titre.isEmpty() || description.isEmpty() || lieu.isEmpty() ||
+            nbrMed.isEmpty() || nbrInf.isEmpty() || nbrVol.isEmpty()) {
+            Toast.makeText(this, "Tous les champs sont obligatoires", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Vérification dates
+        // 3. Vérification de l'image
+        if (selectedImageBase64 == null) {
+            Toast.makeText(this, "Veuillez sélectionner une image pour la mission", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 4. Vérification des dates (déjà gérée par vos sélecteurs, mais sécurité additionnelle)
         if (selectedDateDebut == null || selectedDateFin == null) {
-            Toast.makeText(this, "Veuillez sélectionner les deux dates", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Veuillez sélectionner les dates de début et de fin", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (selectedDateDebut!! > selectedDateFin!!) {
-            Toast.makeText(this, "La date de début ne peut pas être après la date de fin", Toast.LENGTH_SHORT).show()
+        // 5. Vérification du matériel (Optionnel : au moins un matériel ?)
+        if (materielSelections.isEmpty()) {
+            Toast.makeText(this, "Veuillez ajouter au moins un matériel", Toast.LENGTH_SHORT).show()
             return
         }
 
+        // Si tout est OK, on crée l'objet Mission
         val mission = Mission(
             titre = titre,
-            description = binding.editTextDescription.text.toString(),
-            lieu = binding.editTextLieu.text.toString(),
+            description = description,
+            lieu = lieu,
             dateDebut = selectedDateDebut!!,
             dateFin = selectedDateFin!!,
-            nbrMedecin = binding.editTextNbrMedecin.text.toString().toIntOrNull() ?: 0,
-            nbrInfirmier = binding.editTextNbrInfirmier.text.toString().toIntOrNull() ?: 0,
-            nbrVolontaire = binding.editTextNbrVolontaire.text.toString().toIntOrNull() ?: 0,
+            nbrMedecin = nbrMed.toInt(),
+            nbrInfirmier = nbrInf.toInt(),
+            nbrVolontaire = nbrVol.toInt(),
             imageBase64 = selectedImageBase64
         )
 

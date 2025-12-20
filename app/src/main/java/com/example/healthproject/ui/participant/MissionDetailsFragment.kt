@@ -46,11 +46,16 @@ class MissionDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+<<<<<<< HEAD
         setupSpinner()
         setupListeners()
+=======
+        //  Charger les détails de la mission
+>>>>>>> b6b455fb943d94fbdd0e6325ca97a8b4c6525658
         loadMissionDetails()
     }
 
+<<<<<<< HEAD
     private fun setupSpinner() {
         val roles = listOf("Infirmier", "Médecin", "Superviseur")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, roles)
@@ -78,6 +83,38 @@ class MissionDetailsFragment : Fragment() {
             binding.layoutParticipation.visibility = View.VISIBLE
         }
 
+=======
+        //  Spinner rôles
+        val roles = listOf("Infermier", "Médecin", "Superviseur")
+        val spinnerAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, roles)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerRole.adapter = spinnerAdapter
+
+        //  Affichage dynamique des champs
+        binding.spinnerRole.onItemSelectedListener =
+            object : android.widget.AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: android.widget.AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    binding.etSpecialite.visibility =
+                        if (roles[position] == "Médecin") View.VISIBLE else View.GONE
+
+                    binding.etProfession.visibility =
+                        if (roles[position] == "Superviseur") View.VISIBLE else View.GONE
+
+                    binding.etCaracteristiques.visibility =
+                        if (roles[position] != "Médecin") View.VISIBLE else View.GONE
+                }
+
+                override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
+            }
+
+        //  Bouton participer
+>>>>>>> b6b455fb943d94fbdd0e6325ca97a8b4c6525658
         binding.btnDemanderParticipation.setOnClickListener {
             handleParticipation()
         }

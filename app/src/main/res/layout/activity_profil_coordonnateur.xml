@@ -2,167 +2,271 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".ui.coordinateur.ProfilCoordonnateurActivity">
+    android:background="@color/gris_clair">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Header bleu -->
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="200dp"
                 android:background="@color/bleu_marine"
-                android:gravity="center">
+                android:gravity="center"
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/imageProfile"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:src="@drawable/ic_person"
-                    android:tint="@android:color/white"
+                    app:tint="@color/bleu_marine"
                     android:background="@drawable/circle_bg_white"
-                    android:padding="16dp"/>
+                    android:padding="12dp"/>
 
                 <TextView
-                    android:id="@+id/textNomPrenom"
+                    android:id="@+id/textNomPrenomHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nom Prénom"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:text="Chargement..."
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="12dp"/>
 
                 <TextView
                     android:id="@+id/textTypeUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Coordonnateur"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp"/>
+                    android:textColor="@color/white"
+                    android:alpha="0.8"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <!-- Contenu -->
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="16dp">
+                android:padding="16dp">
 
-                <!-- CIN -->
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
                     android:background="@drawable/bg_card"
-                    android:layout_marginBottom="12dp"
+                    android:padding="12dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/textCIN"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/bleu_marine" />
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CIN"
-                        android:textSize="16sp"
-                        android:layout_marginStart="12dp"/>
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nom"
+                            android:textSize="12sp"
+                            android:textColor="@color/bleu_marine"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/textNomValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Email -->
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
                     android:background="@drawable/bg_card"
-                    android:layout_marginBottom="12dp"
+                    android:padding="12dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/bleu_marine" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Prénom"
+                            android:textSize="12sp"
+                            android:textColor="@color/bleu_marine"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/textPrenomValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card"
+                    android:padding="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_card"
+                        app:tint="@color/bleu_marine" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CIN"
+                            android:textSize="12sp"
+                            android:textColor="@color/bleu_marine"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/textCINValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card"
+                    android:padding="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical">
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_email"
-                        android:tint="@color/bleu_marine"/>
-
-                    <TextView
-                        android:id="@+id/textEmail"
+                        app:tint="@color/bleu_marine" />
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textSize="16sp"
-                        android:layout_marginStart="12dp"/>
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Email"
+                            android:textSize="12sp"
+                            android:textColor="@color/bleu_marine"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/textEmailValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Adresse -->
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
                     android:background="@drawable/bg_card"
-                    android:layout_marginBottom="12dp"
+                    android:padding="12dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_phone"
+                        app:tint="@color/bleu_marine" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Téléphone"
+                            android:textSize="12sp"
+                            android:textColor="@color/bleu_marine"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/textNumeroValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card"
+                    android:padding="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical">
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_location"
-                        android:tint="@color/bleu_marine"/>
-
-                    <TextView
-                        android:id="@+id/textAdresse"
+                        app:tint="@color/bleu_marine" />
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Adresse"
-                        android:textSize="16sp"
-                        android:layout_marginStart="12dp"/>
-                </LinearLayout>
-
-                <!-- Numéro -->
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_card"
-                    android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/outline_add_call_24"
-                        android:tint="@color/bleu_marine"/>
-
-                    <TextView
-                        android:id="@+id/textNumero"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Téléphone"
-                        android:textSize="16sp"
-                        android:layout_marginStart="12dp"/>
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Adresse"
+                            android:textSize="12sp"
+                            android:textColor="@color/bleu_marine"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/textAdresseValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation bleu marine -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"

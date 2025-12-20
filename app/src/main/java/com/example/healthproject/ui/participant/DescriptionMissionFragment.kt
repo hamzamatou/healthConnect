@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs // Import indispensable pour Safe Args
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.healthproject.data.repository.MissionRepository
 import com.example.healthproject.databinding.FragmentDescriptionMissionBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import androidx.navigation.fragment.findNavController
+
 
 class DescriptionMissionFragment : Fragment() {
 
@@ -19,9 +20,6 @@ class DescriptionMissionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val missionRepository = MissionRepository()
-
-    // 1. Utilisation de Safe Args pour récupérer l'ID automatiquement
-    // "DescriptionMissionFragmentArgs" est généré à partir de votre XML
     private val args: DescriptionMissionFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -35,28 +33,42 @@ class DescriptionMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 2. On récupère le missionId passé via la navigation
         val missionId = args.missionId
 
-        // 3. Appel au repository pour récupérer les détails de la mission
+        // 1️⃣ Charger les données de la mission
         chargerDonneesMission(missionId)
+
+        // 2️⃣ Bouton Message
         binding.buttonMessage.setOnClickListener {
-            val action = DescriptionMissionFragmentDirections
-                .actionDescriptionMissionFragmentToParticipantMessageFragment(missionId)
+            val action =
+                DescriptionMissionFragmentDirections
+                    .actionDescriptionMissionFragmentToParticipantMessageFragment(missionId)
+            findNavController().navigate(action)
+        }
+
+        // 3️⃣ Afficher / cacher le bouton Supervision
+        binding.btnGoToSupervision.visibility =
+            if (args.isSuperviseur) View.VISIBLE else View.GONE
+
+        // 4️⃣ 🔥 NAVIGATION VERS DASHBOARD SUPERVISEUR
+        binding.btnGoToSupervision.setOnClickListener {
+            val action =
+                DescriptionMissionFragmentDirections
+                    .actionDescriptionMissionFragmentToSupervisionDashboardFragment(
+                        missionId
+                    )
             findNavController().navigate(action)
         }
     }
 
+
     private fun chargerDonneesMission(id: String) {
         missionRepository.getMissionById(id) { mission ->
-            // On vérifie que le binding est toujours disponible avant de mettre à jour la vue
             _binding?.let { b ->
                 mission?.let { m ->
                     b.tvTitre.text = m.titre
                     b.tvDescription.text = m.description
-                    b.tvLieu.text = m.lieu
-                    b.tvDateDebut.text = formatDate(m.dateDebut)
-                    b.tvDateFin.text = formatDate(m.dateFin)
+                    // Ajoutez ici tvLieu, tvDateDebut si présents dans votre XML
                 }
             }
         }

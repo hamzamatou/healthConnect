@@ -1,6 +1,7 @@
 package com.example.healthproject.data.repository
 
 import com.example.healthproject.data.model.AffectationMateriel
+import com.example.healthproject.data.model.Materiel
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AffectationMaterielRepository {
@@ -30,9 +31,32 @@ class AffectationMaterielRepository {
             }
             .addOnFailureListener { _ -> callback(emptyList()) }
     }
-    fun updateEtatApres(id: String, etat: String) {
+
+    fun updateEtatApres(id: String, etat: String, quantiteApres: Int) {
+        val map = mapOf(
+            "etatApres" to etat,
+            "quantiteApres" to quantiteApres
+        )
         db.collection("affectationsMateriel")
             .document(id)
-            .update("etatApres", etat)
+            .update(map)
     }
+
+    // === NOUVELLE MÉTHODE ===
+    fun getAllMateriels(callback: (List<Materiel>) -> Unit) {
+        db.collection("materiels")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                callback(snapshot.toObjects(Materiel::class.java))
+            }
+            .addOnFailureListener { _ ->
+                callback(emptyList())
+            }
+    }
+    fun updateQuantiteInitiale(materielId: String, nouvelleQuantite: Int) {
+        db.collection("materiels")
+            .document(materielId)
+            .update("quantiteInitiale", nouvelleQuantite)
+    }
+
 }
