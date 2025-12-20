@@ -4,45 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gris_clair">
+    android:background="#FAFAFA"> <com.google.android.material.appbar.AppBarLayout
+    android:id="@+id/appBarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:elevation="0dp"> <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="#4F9BB7"> <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/toolbarTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/bleu_marine">
+        android:text="Missions"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"/>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp">
-
-                <TextView
-                    android:id="@+id/toolbarTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Missions"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true"/>
-
-                <Spinner
-                    android:id="@+id/spinnerStatusFilter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:backgroundTint="@color/white"
-                    android:spinnerMode="dropdown" />
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+    <Spinner
+        android:id="@+id/spinnerStatusFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:backgroundTint="@color/white"
+        android:spinnerMode="dropdown" />
+</RelativeLayout>
+</androidx.appcompat.widget.Toolbar>
+</com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,20 +47,18 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchLayout"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Rechercher par titre..."
-            app:boxStrokeColor="@color/bleu_marine"
-            app:hintTextColor="@color/bleu_marine">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchMission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/bleu_marine"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            app:boxStrokeColor="#4F9BB7"
+            app:hintTextColor="#4F9BB7"
+            app:startIconTint="#4F9BB7"> <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchMission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/> </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMissions"
@@ -83,18 +76,16 @@
         android:layout_margin="16dp"
         app:layout_anchor="@id/bottomNavigation"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@drawable/ic_add"
-        app:backgroundTint="@color/bleu_marine"
-        app:tint="@color/white"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="#4F9BB7"
+        app:tint="@color/white"/> <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:menu="@menu/bottom_menu"
-        android:background="@color/bleu_marine"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:background="@color/white"
+        app:itemIconTint="#4F9BB7"
+        app:itemTextColor="#4F9BB7"
+        app:elevation="16dp"
+        app:labelVisibilityMode="labeled"/> </androidx.coordinatorlayout.widget.CoordinatorLayout>
