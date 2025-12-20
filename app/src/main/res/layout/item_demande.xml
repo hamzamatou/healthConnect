@@ -4,55 +4,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="4dp"
-    android:elevation="4dp"
-    android:padding="8dp"
-    app:cardBackgroundColor="#FFFFFF"> <!-- utilisation du namespace app -->
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:padding="12dp">
+
+        <!-- Image ronde pour mission -->
+        <ImageView
+            android:id="@+id/imgMission"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rounded_shape"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Date de la mission -->
+        <TextView
+            android:id="@+id/tvMissionDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgMission"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Titre de la mission -->
         <TextView
             android:id="@+id/tvMissionTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="#1A1A1A"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#52C2C7"
-            android:layout_marginBottom="4dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvMissionDate"
+            app:layout_constraintTop_toBottomOf="@id/tvMissionDate" />
 
-        <!-- Rôle du participant -->
+        <!-- Role -->
         <TextView
             android:id="@+id/tvRole"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="#757575"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="#333333"
-            android:layout_marginBottom="2dp"/>
+            app:layout_constraintStart_toStartOf="@id/tvMissionTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvMissionTitle"
+            app:layout_constraintEnd_toStartOf="@id/tvStatus"
+            android:ellipsize="end"
+            android:singleLine="true"/>
 
-        <!-- Statut de la demande -->
+        <!-- Statut -->
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:padding="4dp"
-            android:textColor="#FFFFFF" />
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMissionTitle" />
 
-        <!-- Bouton Voir Détails -->
+        <!-- Bouton voir détails -->
         <Button
             android:id="@+id/btnVoirDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voir Détails"
             android:layout_marginTop="8dp"
+            android:text="Voir Détails"
+            android:textSize="12sp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRole"
             android:backgroundTint="#52C2C7"
             android:textColor="#FFFFFF"/>
-    </LinearLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

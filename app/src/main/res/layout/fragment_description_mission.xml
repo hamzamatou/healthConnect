@@ -1,52 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-    <ScrollView
+    <!-- SCROLLABLE CONTENT -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="120dp">
 
-            <Button
-                android:id="@+id/buttonMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Voir les messages"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center"/>
+            <!-- HEADER IMAGE + BACK BUTTON -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
 
-            <TextView
-                android:id="@+id/tvTitre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:layout_marginBottom="8dp"/>
+                <ImageView
+                    android:id="@+id/ivMissionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
 
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"/>
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@android:color/white" />
+            </FrameLayout>
 
-            <Button
-                android:id="@+id/btnGoToSupervision"
+            <!-- CARD PARTICIPANTS -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Superviser cette mission"
-                android:backgroundTint="#FF9800"
-                android:layout_marginTop="20dp"
-                android:visibility="visible" />
+                android:layout_marginHorizontal="45dp"
+                android:layout_marginTop="-30dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="8dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_avatars_group" />
+
+                    <TextView
+                        android:id="@+id/tvGoingCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Participants"
+                        android:textColor="#4F9BB7"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- DETAILS MISSION -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Titre -->
+                <TextView
+                    android:id="@+id/tvMissionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Titre de la Mission"
+                    android:textColor="#120D26"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp" />
+
+                <!-- DATE / TIME -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/img_4"
+                        android:padding="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                        <TextView
+                            android:id="@+id/tvMissionDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#120D26"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvMissionTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#808080"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- LIEU -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/img_3"
+                        android:padding="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                        <TextView
+                            android:id="@+id/tvMissionLocationName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#120D26"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lieu de l'intervention"
+                            android:textColor="#808080"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- DESCRIPTION -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="À propos de la mission"
+                    android:textStyle="bold"
+                    android:textColor="#120D26"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
+                <TextView
+                    android:id="@+id/tvMissionDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#120D26"
+                    android:lineSpacingExtra="6dp"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- BOUTON MESSAGE FLOTANT -->
+    <ImageButton
+        android:id="@+id/buttonMessage"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:backgroundTint="#52C2C7"
+        android:padding="12dp"
+        android:src="@drawable/ic_message"
+        android:contentDescription="Messages"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- BOUTON SUPERVISION FLOTANT -->
+    <ImageButton
+        android:id="@+id/btnGoToSupervision"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:backgroundTint="#FF9800"
+        android:padding="12dp"
+        android:src="@drawable/ic_sup"
+        android:contentDescription="Supervision"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="88dp"/> <!-- juste au-dessus du bouton message -->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

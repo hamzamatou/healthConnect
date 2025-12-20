@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="#4F9BB7"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/circle_bg_white"
+                android:padding="15dp"
+                android:src="@drawable/ic_person" />
+
+            <TextView
+                android:id="@+id/textNomPrenomHeader"
+                android:text="Chargement..."
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+        </LinearLayout>
+
+        <!-- CONTENU -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- NOM -->
+            <TextView
+                android:text="Nom"
+                android:textColor="#4F9BB7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textNomValue"
+                android:text="-"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
+
+            <!-- PRÉNOM -->
+            <TextView
+                android:text="Prénom"
+                android:textColor="#4F9BB7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textPrenomValue"
+                android:text="-"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
+
+            <!-- CIN -->
+            <TextView
+                android:text="CIN"
+                android:textColor="#4F9BB7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textCINValue"
+                android:text="-"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
+
+            <!-- EMAIL -->
+            <TextView
+                android:text="Email"
+                android:textColor="#4F9BB7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textEmailValue"
+                android:text="-"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
+
+            <!-- TÉLÉPHONE -->
+            <TextView
+                android:text="Téléphone"
+                android:textColor="#4F9BB7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textNumeroValue"
+                android:text="-"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
+
+            <!-- ADRESSE -->
+            <TextView
+                android:text="Adresse"
+                android:textColor="#4F9BB7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textAdresseValue"
+                android:text="-"
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
