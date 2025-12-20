@@ -2,4 +2,8 @@
 <resources>
 
     <style name="RoundedCornersImage"></style>
+    <style name="BottomNavText">
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

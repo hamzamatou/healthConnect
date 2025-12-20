@@ -96,7 +96,7 @@ class CreateMissionActivity : AppCompatActivity() {
 
     private fun encodeToBase64(bitmap: Bitmap): String {
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos) // compression forte
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos)
         return Base64.encodeToString(baos.toByteArray(), Base64.NO_WRAP)
     }
 
@@ -106,9 +106,7 @@ class CreateMissionActivity : AppCompatActivity() {
         val datePicker = DatePickerDialog(
             this,
             { _, y, m, d ->
-                val selected = Calendar.getInstance().apply {
-                    set(y, m, d)
-                }
+                val selected = Calendar.getInstance().apply { set(y, m, d) }
 
                 TimePickerDialog(
                     this,
@@ -118,15 +116,37 @@ class CreateMissionActivity : AppCompatActivity() {
                         val timestamp = selected.timeInMillis
 
                         if (isStartDate) {
-                            selectedDateDebut = timestamp
-                            binding.editTextDateDebut.setText(
-                                String.format("%02d/%02d/%04d %02d:%02d", d, m + 1, y, h, min)
-                            )
-                            selectedDateFin = null
-                            binding.editTextDateFin.setText("")
+                            // Vérifie que la date est au moins demain
+                            val minStart = Calendar.getInstance().apply {
+                                add(Calendar.DAY_OF_YEAR, 1)
+                                set(Calendar.HOUR_OF_DAY, 0)
+                                set(Calendar.MINUTE, 0)
+                                set(Calendar.SECOND, 0)
+                                set(Calendar.MILLISECOND, 0)
+                            }
+
+                            if (timestamp < minStart.timeInMillis) {
+                                Toast.makeText(
+                                    this,
+                                    "La date de début doit être au moins demain",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                selectedDateDebut = timestamp
+                                binding.editTextDateDebut.setText(
+                                    String.format("%02d/%02d/%04d %02d:%02d", d, m + 1, y, h, min)
+                                )
+                                selectedDateFin = null
+                                binding.editTextDateFin.setText("")
+                            }
+
                         } else {
                             if (selectedDateDebut != null && timestamp <= selectedDateDebut!!) {
-                                Toast.makeText(this, "La date de fin doit être après le début", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    "La date de fin doit être après la date de début",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
                                 selectedDateFin = timestamp
                                 binding.editTextDateFin.setText(
@@ -145,6 +165,14 @@ class CreateMissionActivity : AppCompatActivity() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
 
+        // Bloquer les dates passées
+        if (isStartDate) {
+            val minDate = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) }
+            datePicker.datePicker.minDate = minDate.timeInMillis
+        } else {
+            selectedDateDebut?.let { datePicker.datePicker.minDate = it + 60_000 } // min 1 min après début
+        }
+
         datePicker.show()
     }
 
@@ -158,7 +186,8 @@ class CreateMissionActivity : AppCompatActivity() {
         val nbrVol = binding.editTextNbrVolontaire.text.toString().toIntOrNull()
 
         if (titre.isEmpty() || description.isEmpty() || lieu.isEmpty() ||
-            nbrMed == null || nbrInf == null || nbrVol == null) {
+            nbrMed == null || nbrInf == null || nbrVol == null
+        ) {
             Toast.makeText(this, "Veuillez remplir tous les champs correctement", Toast.LENGTH_SHORT).show()
             return
         }

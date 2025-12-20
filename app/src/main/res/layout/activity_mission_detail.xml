@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     android:background="#FAFAFA">
 
+    <!-- ================= TOOLBAR ================= -->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:background="#4F9BB7">
@@ -21,7 +20,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="16dp">
+                android:paddingEnd="16dp">
 
                 <ImageButton
                     android:id="@+id/btnBack"
@@ -30,38 +29,29 @@
                     android:layout_centerVertical="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_back"
-                    app:tint="@color/white" />
+                    app:tint="@android:color/white"/>
 
                 <TextView
-                    android:id="@+id/toolbarTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/btnBack"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@id/btnBack"
                     android:text="Détails Mission"
-                    android:textColor="@color/white"
+                    android:textColor="@android:color/white"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/buttonMessage"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@android:drawable/stat_notify_chat"
-                    android:visibility="gone"
-                    app:tint="@color/white" />
+                    android:textStyle="bold"/>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <!-- ================= CONTENT SCROLLABLE ================= -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
+        android:fillViewport="true"
         android:padding="16dp"
+        android:paddingBottom="120dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -69,190 +59,218 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- Nom de la mission -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nom de la mission"
-                app:boxStrokeColor="#4F9BB7">
+                app:hintTextColor="#4F9BB7"
+                app:boxStrokeColor="#4F9BB7"
+                android:layout_marginTop="12dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextMissionName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold" />
+                    android:textColor="#000000"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Description -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="Description"
+                app:hintTextColor="#4F9BB7"
                 app:boxStrokeColor="#4F9BB7">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextMissionDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minLines="3" />
+                    android:minLines="3"
+                    android:textColor="#000000"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Lieu -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="Lieu"
-                app:startIconDrawable="@drawable/ic_location">
+                app:startIconDrawable="@drawable/ic_location"
+                app:hintTextColor="#4F9BB7"
+                app:boxStrokeColor="#4F9BB7">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextMissionLieu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Dates Début / Fin -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal">
+
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Début">
+                    android:layout_height="wrap_content"
+                    android:hint="Début"
+                    app:hintTextColor="#4F9BB7"
+                    app:boxStrokeColor="#4F9BB7">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextMissionDateDebut"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:textColor="#000000"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <View android:layout_width="8dp" android:layout_height="1dp" />
+
+                <View android:layout_width="8dp" android:layout_height="1dp"/>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Fin">
+                    android:layout_height="wrap_content"
+                    android:hint="Fin"
+                    app:hintTextColor="#4F9BB7"
+                    app:boxStrokeColor="#4F9BB7">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextMissionDateFin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:textColor="#000000"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+            <!-- Nombres Méd/Infirmier/Volontaire -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:orientation="horizontal"
                 android:weightSum="3">
+
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Méd.">
+                    android:layout_height="wrap_content"
+                    android:hint="Méd."
+                    app:hintTextColor="#4F9BB7"
+                    app:boxStrokeColor="#4F9BB7">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextMissionNbrMedecin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:textColor="#000000"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:hint="Inf.">
+                    android:hint="Inf."
+                    app:hintTextColor="#4F9BB7"
+                    app:boxStrokeColor="#4F9BB7">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextMissionNbrInfirmier"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:textColor="#000000"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:hint="Vol.">
+                    android:hint="Vol."
+                    app:hintTextColor="#4F9BB7"
+                    app:boxStrokeColor="#4F9BB7">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextMissionNbrVolontaire"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:textColor="#000000"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+            <!-- Statut -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:hint="Statut">
+                android:hint="Statut"
+                app:hintTextColor="#4F9BB7"
+                app:boxStrokeColor="#4F9BB7">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextMissionStatut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:textColor="#000000"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnViewParticipants"
+            <!-- Boutons Participants / Demandes -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="#4F9BB7"
-                android:text="Voir les participants" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:weightSum="2">
 
-            <Button
-                android:id="@+id/btnViewAllRequests"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#4F9BB7"
-                android:text="Voir toutes les demandes" />
+                <Button
+                    android:id="@+id/btnViewParticipants"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Voir Participants"
+                    android:backgroundTint="#4F9BB7"
+                    android:textColor="@android:color/white"/>
 
-            <View android:layout_width="match_parent" android:layout_height="100dp" />
+                <Button
+                    android:id="@+id/btnViewAllRequests"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Voir Demandes"
+                    android:backgroundTint="#2C3E50"
+                    android:textColor="@android:color/white"/>
+            </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- FLOATING ACTION BUTTONS -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditMission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="72dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/ic_edit1"
+        app:backgroundTint="#4F9BB7"
+        app:tint="@android:color/white"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCancelMission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/bottomNavigation"
-        app:layout_anchorGravity="top|start"
-        app:backgroundTint="#E57373"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="72dp"
+        android:layout_marginStart="16dp"
         app:srcCompat="@drawable/ic_cancel"
-        app:tint="@color/white" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEditMission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/bottomNavigation"
-        app:layout_anchorGravity="top|end"
-        app:backgroundTint="#4F9BB7"
-        app:srcCompat="@drawable/ic_edit1"
-        app:tint="@color/white" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/bottom_menu"
-        android:background="@color/white"
-        app:itemIconTint="#4F9BB7"
-        app:itemTextColor="#4F9BB7"
-        app:elevation="16dp"
-        app:labelVisibilityMode="labeled"/>
+        app:backgroundTint="#2C3E50"
+        app:tint="@android:color/white"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
