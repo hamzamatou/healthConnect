@@ -8,39 +8,69 @@
         android:id="@+id/missionFragment"
         android:name="com.example.healthproject.ui.coordinateur.MissionListFragment"
         android:label="Missions">
-
         <action
             android:id="@+id/action_missionFragment_to_descriptionMissionFragment"
             app:destination="@id/descriptionMissionFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/mesDemandesFragment"
         android:name="com.example.healthproject.ui.participant.MesDemandesFragment"
         android:label="Mes demandes">
-
         <action
             android:id="@+id/action_mesDemandesFragment_to_descriptionMissionFragment"
-            app:destination="@id/descriptionMissionFragment">
-            <argument
-                android:name="missionId"
-                app:argType="string" />
-        </action>
+            app:destination="@id/descriptionMissionFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/descriptionMissionFragment"
         android:name="com.example.healthproject.ui.participant.DescriptionMissionFragment"
         android:label="Description Mission">
-
         <argument
             android:name="missionId"
             app:argType="string" />
-
-        <!-- Action vers le fragment de messagerie -->
+        <argument
+            android:name="isSuperviseur"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_descriptionMissionFragment_to_participantMessageFragment"
             app:destination="@id/participantMessageFragment" />
+        <action
+            android:id="@+id/action_descriptionMissionFragment_to_supervisionDashboardFragment"
+            app:destination="@id/supervisionDashboardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/supervisionDashboardFragment"
+        android:name="com.example.healthproject.ui.superviseur.SupervisionDashboardFragment"
+        android:label="Gestion Supervision">
+        <argument
+            android:name="missionId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_to_presence"
+            app:destination="@id/presenceFragment" />
+        <action
+            android:id="@+id/action_to_materiel"
+            app:destination="@id/materielFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/presenceFragment"
+        android:name="com.example.healthproject.ui.superviseur.presence.PresenceFragment"
+        android:label="Vérification Présence">
+        <argument
+            android:name="missionId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/materielFragment"
+        android:name="com.example.healthproject.ui.superviseur.materiel.MaterielFragment"
+        android:label="Vérification Matériel">
+        <argument
+            android:name="missionId"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -61,7 +91,6 @@
         android:id="@+id/participantMessageFragment"
         android:name="com.example.healthproject.ui.participant.ParticipantMessageFragment"
         android:label="Messages">
-
         <argument
             android:name="MISSION_ID"
             app:argType="string" />
@@ -71,6 +100,4 @@
         android:id="@+id/pharmaChatFragment"
         android:name="com.example.healthproject.ui.pharmaassistant.PharmaChatFragment"
         android:label="Assistant IA" />
-
-
 </navigation>
