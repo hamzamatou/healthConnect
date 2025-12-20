@@ -4,6 +4,7 @@
     android:id="@+id/nav_participant"
     app:startDestination="@id/missionFragment">
 
+    <!-- Liste des missions -->
     <fragment
         android:id="@+id/missionFragment"
         android:name="com.example.healthproject.ui.coordinateur.MissionListFragment"
@@ -12,6 +13,8 @@
             android:id="@+id/action_missionFragment_to_descriptionMissionFragment"
             app:destination="@id/descriptionMissionFragment" />
     </fragment>
+
+    <!-- Mes demandes -->
     <fragment
         android:id="@+id/mesDemandesFragment"
         android:name="com.example.healthproject.ui.participant.MesDemandesFragment"
@@ -21,6 +24,7 @@
             app:destination="@id/descriptionMissionFragment" />
     </fragment>
 
+    <!-- Description mission -->
     <fragment
         android:id="@+id/descriptionMissionFragment"
         android:name="com.example.healthproject.ui.participant.DescriptionMissionFragment"
@@ -40,6 +44,7 @@
             app:destination="@id/supervisionDashboardFragment" />
     </fragment>
 
+    <!-- Dashboard supervision -->
     <fragment
         android:id="@+id/supervisionDashboardFragment"
         android:name="com.example.healthproject.ui.superviseur.SupervisionDashboardFragment"
@@ -55,6 +60,7 @@
             app:destination="@id/materielFragment" />
     </fragment>
 
+    <!-- Présence -->
     <fragment
         android:id="@+id/presenceFragment"
         android:name="com.example.healthproject.ui.superviseur.presence.PresenceFragment"
@@ -64,6 +70,7 @@
             app:argType="string" />
     </fragment>
 
+    <!-- Matériel -->
     <fragment
         android:id="@+id/materielFragment"
         android:name="com.example.healthproject.ui.superviseur.materiel.MaterielFragment"
@@ -73,11 +80,13 @@
             app:argType="string" />
     </fragment>
 
+    <!-- Participation -->
     <fragment
         android:id="@+id/participationFragment"
         android:name="com.example.healthproject.ui.participant.ParticipationFragment"
         android:label="Participation" />
 
+    <!-- Détails mission -->
     <fragment
         android:id="@+id/missionDetailsFragment"
         android:name="com.example.healthproject.ui.participant.MissionDetailsFragment"
@@ -87,6 +96,7 @@
             app:argType="string" />
     </fragment>
 
+    <!-- Messagerie -->
     <fragment
         android:id="@+id/participantMessageFragment"
         android:name="com.example.healthproject.ui.participant.ParticipantMessageFragment"
@@ -96,8 +106,16 @@
             app:argType="string" />
     </fragment>
 
+    <!-- Assistant IA -->
     <fragment
         android:id="@+id/pharmaChatFragment"
         android:name="com.example.healthproject.ui.pharmaassistant.PharmaChatFragment"
         android:label="Assistant IA" />
+
+    <!-- 🔥 Profil participant -->
+    <fragment
+        android:id="@+id/participantProfileFragment"
+        android:name="com.example.healthproject.ui.participant.ProfilParticipantFragment"
+        android:label="Profil" />
+
 </navigation>
