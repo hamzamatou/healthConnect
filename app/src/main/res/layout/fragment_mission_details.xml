@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Participants "
-                        android:textColor="#5669FF"
+                        android:textColor="#4F9BB7"
                         android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -66,6 +66,7 @@
             android:name="MISSION_ID"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/pharmaChatFragment"
         android:name="com.example.healthproject.ui.pharmaassistant.PharmaChatFragment"

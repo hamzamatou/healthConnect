@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#5669FF"
+            android:background="#4F9BB7"
             android:title="Participant"
             android:titleTextColor="@color/white"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"/>
