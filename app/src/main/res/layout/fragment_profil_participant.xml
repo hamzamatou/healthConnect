@@ -28,6 +28,8 @@
 
             <TextView
                 android:id="@+id/textNomPrenomHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Chargement..."
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
@@ -44,12 +46,16 @@
 
             <!-- NOM -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Nom"
                 android:textColor="#4F9BB7"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textNomValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="16sp"
                 android:textColor="#212121"
@@ -57,12 +63,16 @@
 
             <!-- PRÉNOM -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Prénom"
                 android:textColor="#4F9BB7"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textPrenomValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="16sp"
                 android:textColor="#212121"
@@ -70,12 +80,16 @@
 
             <!-- CIN -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="CIN"
                 android:textColor="#4F9BB7"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textCINValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="16sp"
                 android:textColor="#212121"
@@ -83,12 +97,16 @@
 
             <!-- EMAIL -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Email"
                 android:textColor="#4F9BB7"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textEmailValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="16sp"
                 android:textColor="#212121"
@@ -96,12 +114,16 @@
 
             <!-- TÉLÉPHONE -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Téléphone"
                 android:textColor="#4F9BB7"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textNumeroValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="16sp"
                 android:textColor="#212121"
@@ -109,12 +131,16 @@
 
             <!-- ADRESSE -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Adresse"
                 android:textColor="#4F9BB7"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textAdresseValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="16sp"
                 android:textColor="#212121"

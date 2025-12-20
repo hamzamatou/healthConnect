@@ -45,9 +45,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="45dp"
                 android:layout_marginTop="-30dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="8dp">
 
+                app:cardCornerRadius="30dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@android:color/white">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -187,7 +188,6 @@
         android:id="@+id/buttonMessage"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:backgroundTint="#52C2C7"
         android:padding="12dp"
         android:src="@drawable/ic_message"
         android:contentDescription="Messages"
@@ -202,7 +202,7 @@
         android:id="@+id/btnGoToSupervision"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:backgroundTint="#FF9800"
+        android:text="superviser"
         android:padding="12dp"
         android:src="@drawable/ic_sup"
         android:contentDescription="Supervision"
